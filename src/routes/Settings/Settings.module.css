@@ -1,0 +1,126 @@
+.page {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.back {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+}
+
+.back:hover {
+  color: var(--ink-100);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-display-xl);
+  letter-spacing: var(--track-display);
+  color: var(--ink-100);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--rule);
+}
+
+.heading {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.label {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--ink-100);
+}
+
+.hint {
+  font-size: var(--text-small);
+  color: var(--ink-500);
+}
+
+.number {
+  width: 88px;
+  font-size: var(--text-body);
+  color: var(--ink-100);
+  background: var(--vault-700);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+}
+
+.number:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.segs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--vault-800);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  align-self: flex-start;
+}
+
+.seg {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.seg[data-active="true"] {
+  color: var(--ink-100);
+  background: var(--vault-600);
+}
+
+.purge {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-body);
+  color: var(--ink-300);
+}
+
+.purge strong {
+  color: var(--ink-100);
+  font-family: var(--font-mono);
+}
+
+.purgeBtn {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--ink-100);
+  background: var(--tag-bug-bg);
+  box-shadow: inset 0 0 0 1px var(--tag-bug-fg);
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.purgeBtn:hover {
+  background: color-mix(in srgb, var(--tag-bug-bg) 70%, var(--tag-bug-fg));
+}

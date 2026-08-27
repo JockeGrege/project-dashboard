@@ -1,0 +1,124 @@
+.manager {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.swatch {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  flex: none;
+}
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 20px);
+  gap: var(--sp-2);
+  padding: var(--sp-1);
+}
+
+.swatchOption {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+}
+
+.swatchOption[data-active="true"] {
+  border-color: var(--ink-100);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-small);
+  color: var(--ink-100);
+  background: var(--vault-700);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 6px 9px;
+}
+
+.name:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.controls {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: none;
+}
+
+.arrow {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  color: var(--ink-500);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+}
+
+.arrow:hover:not(:disabled) {
+  color: var(--ink-100);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.remove {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+  padding: 4px 8px;
+}
+
+.remove:hover {
+  color: var(--tag-bug-fg);
+}
+
+.empty {
+  font-size: var(--text-small);
+  color: var(--ink-500);
+}
+
+.addRow {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+.add {
+  flex: none;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.add:disabled {
+  color: var(--ink-500);
+  background: var(--vault-600);
+  pointer-events: none;
+}

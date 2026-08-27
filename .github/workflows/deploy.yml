@@ -26,6 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
       - run: npm run build
         env:
           VITE_FIREBASE_TARGET: live

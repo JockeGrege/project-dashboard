@@ -155,13 +155,18 @@ export class FirestoreStore implements Store {
   }
 
   private build(): StoreSnapshot {
+    const allIssues = [...this.issues.values()];
     return {
       projects: [...this.projects.values()].filter((p) => p.deletedAt === null),
-      issues: [...this.issues.values()].filter((i) => i.deletedAt === null),
+      issues: allIssues.filter((i) => i.deletedAt === null),
       categories: [...this.categories.values()].sort(
         (a, b) => a.sortOrder - b.sortOrder,
       ),
       settings: this.settings,
+      deletedIssueCount: allIssues.reduce(
+        (n, i) => (i.deletedAt !== null ? n + 1 : n),
+        0,
+      ),
       status: this.status,
       ...(this.errorText ? { error: this.errorText } : {}),
     };

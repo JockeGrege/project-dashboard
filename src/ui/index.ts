@@ -12,3 +12,4 @@ export { Switch } from "./Switch";
 export { Eyebrow } from "./Eyebrow";
 export { Popover } from "./Popover";
 export { MenuItem, MenuSeparator, MenuLabel } from "./MenuItem";
+export { ConfirmDialog } from "./ConfirmDialog";

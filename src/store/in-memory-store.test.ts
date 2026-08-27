@@ -56,6 +56,17 @@ describe("InMemoryStore — snapshot", () => {
     await store.deleteIssue(issueId);
     expect(store.getSnapshot().issues).toEqual([]);
   });
+
+  it("counts deleted-issue tombstones for the purge line", async () => {
+    const projectId = await seedProject();
+    const a = await store.createIssue({ projectId, text: "a", tag: null });
+    await store.createIssue({ projectId, text: "b", tag: null });
+    expect(store.getSnapshot().deletedIssueCount).toBe(0);
+    await store.deleteIssue(a);
+    expect(store.getSnapshot().deletedIssueCount).toBe(1);
+    await store.purgeDeletedIssues();
+    expect(store.getSnapshot().deletedIssueCount).toBe(0);
+  });
 });
 
 describe("InMemoryStore — resolvedAt bookkeeping", () => {

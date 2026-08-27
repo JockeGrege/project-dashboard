@@ -33,6 +33,8 @@ export interface StoreSnapshot {
   /** Categories in `sortOrder`. */
   readonly categories: readonly Category[];
   readonly settings: Settings;
+  /** How many soft-deleted issue tombstones exist — drives the Settings purge line. */
+  readonly deletedIssueCount: number;
   readonly status: StoreStatus;
   /** Present when `status === "error"`. */
   readonly error?: string;
@@ -84,5 +86,6 @@ export const LOADING_SNAPSHOT: StoreSnapshot = {
     sortOrder: "activity",
     lastPurgeAt: null,
   },
+  deletedIssueCount: 0,
   status: "loading",
 };

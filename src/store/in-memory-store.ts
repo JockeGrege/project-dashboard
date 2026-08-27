@@ -112,6 +112,10 @@ export class InMemoryStore implements Store {
         .sort((a, b) => a.sortOrder - b.sortOrder)
         .map(clone),
       settings: { ...this.settings },
+      deletedIssueCount: this.issues.reduce(
+        (n, i) => (i.deletedAt !== null ? n + 1 : n),
+        0,
+      ),
       status: "ready",
     };
   }
