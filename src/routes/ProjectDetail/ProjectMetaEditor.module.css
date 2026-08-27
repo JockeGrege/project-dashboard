@@ -1,0 +1,75 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--vault-800);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.input {
+  font-size: var(--text-body);
+  color: var(--ink-100);
+  background: var(--vault-700);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.error {
+  font-size: var(--text-small);
+  color: var(--tag-bug-fg);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+.cancel {
+  font-size: var(--text-small);
+  color: var(--ink-300);
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.cancel:hover {
+  color: var(--ink-100);
+  background: var(--vault-700);
+}
+
+.save {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.save:disabled {
+  color: var(--ink-500);
+  background: var(--vault-600);
+  pointer-events: none;
+}

@@ -1,0 +1,76 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6);
+  background: color-mix(in srgb, var(--vault-900) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-heading-m);
+  letter-spacing: var(--track-display);
+  color: var(--ink-100);
+}
+
+.mark {
+  color: var(--brass);
+  font-size: 1.1em;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.newProject {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.newProject:hover {
+  color: var(--ink-100);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--sp-6);
+}
+
+@media (max-width: 620px) {
+  .bar {
+    padding: var(--sp-3) var(--sp-4);
+  }
+
+  .main {
+    padding: var(--sp-4);
+  }
+
+  .newProject {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+.pager {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ink-300);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--vault-700);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.arrow:hover:not(:disabled) {
+  color: var(--brass);
+  background: var(--vault-600);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+  min-width: 4ch;
+  text-align: center;
+}

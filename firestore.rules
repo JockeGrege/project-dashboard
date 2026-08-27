@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// Single-user database. GitHub Pages ships the Firebase config in the bundle, so
+// these rules are the only thing protecting the data — every read and write is
+// pinned to one account.
+//
+// Replace the UID below with your VITE_ALLOWED_UID once you have signed in once
+// (the app shows it in a banner). Keep it in sync with the .env value and the
+// GitHub Actions secret.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner() {
+      return request.auth != null
+        && request.auth.uid == 'REPLACE_WITH_VITE_ALLOWED_UID';
+    }
+
+    match /{document=**} {
+      allow read, write: if isOwner();
+    }
+  }
+}
