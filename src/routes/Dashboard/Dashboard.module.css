@@ -11,6 +11,24 @@
   gap: var(--sp-4);
   margin-bottom: var(--sp-4);
   flex-wrap: wrap;
+  animation: head-enter 240ms var(--ease-out) both;
+}
+
+.feed .sectionHead {
+  animation-delay: 60ms;
+}
+
+@keyframes head-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionHead {
+    animation: none;
+  }
 }
 
 .controls {

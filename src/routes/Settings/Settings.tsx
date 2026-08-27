@@ -60,14 +60,17 @@ export function Settings() {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>default view</span>
-          <div className={styles.segs}>
+          <span className={styles.label} id="set-view">
+            default view
+          </span>
+          <div className={styles.segs} role="group" aria-labelledby="set-view">
             {VIEW_MODES.map((mode) => (
               <button
                 key={mode}
                 type="button"
                 className={styles.seg}
                 data-active={settings.viewMode === mode}
+                aria-pressed={settings.viewMode === mode}
                 onClick={() => void store.updateSettings({ viewMode: mode })}
               >
                 {VIEW_LABELS[mode]}
@@ -77,14 +80,17 @@ export function Settings() {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>default sort</span>
-          <div className={styles.segs}>
+          <span className={styles.label} id="set-sort">
+            default sort
+          </span>
+          <div className={styles.segs} role="group" aria-labelledby="set-sort">
             {PROJECT_SORTS.map((sort) => (
               <button
                 key={sort}
                 type="button"
                 className={styles.seg}
                 data-active={settings.sortOrder === sort}
+                aria-pressed={settings.sortOrder === sort}
                 onClick={() => void store.updateSettings({ sortOrder: sort })}
               >
                 {SORT_LABELS[sort]}

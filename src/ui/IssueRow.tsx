@@ -35,7 +35,12 @@ export function IssueRow({
   const body = (
     <>
       <StatusStamp status={status} />
-      <span className={styles.text} data-status={status}>
+      {/* keyed by status so the strike-through wipes in when an issue is completed */}
+      <span
+        key={`text-${status}`}
+        className={styles.text}
+        data-status={status}
+      >
         {text}
       </span>
       <span className={styles.trailing}>

@@ -4,6 +4,29 @@
   flex-direction: column;
 }
 
+.skip {
+  position: fixed;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  z-index: 100;
+  padding: 8px 14px;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  border-radius: var(--radius-sm);
+  transform: translateY(-150%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip:focus {
+  transform: translateY(0);
+}
+
+.main:focus {
+  outline: none;
+}
+
 .bar {
   position: sticky;
   top: 0;

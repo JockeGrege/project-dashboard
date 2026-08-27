@@ -1,0 +1,31 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  background: rgba(8, 10, 13, 0.62);
+  animation: fade var(--dur-fast) var(--ease-out);
+}
+
+.top {
+  align-items: flex-start;
+  padding: 12vh var(--sp-4) var(--sp-4);
+}
+
+.center {
+  align-items: center;
+  padding: var(--sp-4);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
+}

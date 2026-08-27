@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import type { Project, Tag } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import { monogram } from "@/selectors";
-import { TagPicker } from "@/ui";
+import { Modal, TagPicker } from "@/ui";
 import styles from "./QuickAdd.module.css";
 
 interface QuickAddProps {
@@ -26,17 +26,6 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
   const [tag, setTag] = useState<Tag | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const textRef = useRef<HTMLInputElement>(null);
-  useEffect(() => textRef.current?.focus(), []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
 
   const sorted = useMemo(
     () => [...projects].sort((a, b) => a.name.localeCompare(b.name)),
@@ -72,30 +61,19 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
   }
 
   return (
-    <div
-      className={styles.backdrop}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div
-        className={styles.panel}
-        role="dialog"
-        aria-modal="true"
-        aria-label="File an idea"
-      >
-        <p className={styles.title}>File an idea</p>
+    <Modal onClose={onClose} label="File an idea" className={styles.panel}>
+      <p className={styles.title}>File an idea</p>
 
-        <input
-          ref={textRef}
-          className={styles.text}
-          placeholder="What's the improvement?"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && canSubmit) submit();
-          }}
-        />
+      <input
+        autoFocus
+        className={styles.text}
+        placeholder="What's the improvement?"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && canSubmit) submit();
+        }}
+      />
 
         <div className={styles.projectField}>
           <span className={styles.arrow} aria-hidden="true">
@@ -166,8 +144,7 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
             {busy ? "Filing…" : "File ⏎"}
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }
 
