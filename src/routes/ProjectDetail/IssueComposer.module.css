@@ -1,0 +1,60 @@
+.composer {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  background: var(--vault-800);
+}
+
+.plus {
+  font-family: var(--font-mono);
+  color: var(--ink-500);
+  width: var(--gutter-stamp);
+  text-align: center;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-body);
+  color: var(--ink-100);
+  background: transparent;
+  border: none;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--ink-500);
+}
+
+.tagHint {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+}
+
+.tagPop {
+  padding: var(--sp-1);
+}
+
+.add {
+  flex: none;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.add:disabled {
+  color: var(--ink-500);
+  background: var(--vault-600);
+  pointer-events: none;
+}

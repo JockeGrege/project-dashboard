@@ -1,0 +1,105 @@
+.splash {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-500);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--track-mono);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-7) var(--sp-6);
+  background: var(--vault-800);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+}
+
+.mark {
+  font-size: 28px;
+  color: var(--brass);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-display-l);
+  letter-spacing: var(--track-display);
+  color: var(--ink-100);
+}
+
+.sub {
+  color: var(--ink-300);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  letter-spacing: normal;
+}
+
+.signIn {
+  margin-top: var(--sp-2);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.signIn:disabled {
+  color: var(--ink-500);
+  background: var(--vault-600);
+  pointer-events: none;
+}
+
+.error {
+  color: var(--tag-bug-fg);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  letter-spacing: normal;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--vault-800);
+  border-bottom: 1px solid var(--brass-dim);
+  font-size: var(--text-small);
+  color: var(--ink-300);
+}
+
+.banner code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--ink-100);
+}
+
+.copy {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--brass);
+  background: var(--vault-900);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+}
+
+.signOut {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.signOut:hover {
+  color: var(--ink-100);
+}

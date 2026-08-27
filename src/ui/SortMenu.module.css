@@ -1,0 +1,39 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.select {
+  appearance: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-100);
+  background: var(--vault-700);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 5px 26px 5px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'%3E%3Cpath d='M1 1l3 3 3-3' stroke='%236b7482' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: calc(100% - 10px) center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.select:hover {
+  border-color: var(--ink-500);
+}
+
+.select option {
+  background: var(--vault-800);
+  color: var(--ink-100);
+}

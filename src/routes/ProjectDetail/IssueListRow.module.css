@@ -1,0 +1,45 @@
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  padding-left: calc(var(--gutter-stamp) + var(--sp-3));
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-body);
+  color: var(--ink-100);
+  background: var(--vault-700);
+  border: 1px solid var(--brass);
+  border-radius: var(--radius-sm);
+  padding: 6px 9px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.save {
+  flex: none;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.cancel {
+  flex: none;
+  font-size: var(--text-small);
+  color: var(--ink-300);
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.cancel:hover {
+  color: var(--ink-100);
+  background: var(--vault-700);
+}

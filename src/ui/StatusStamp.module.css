@@ -1,0 +1,24 @@
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gutter-stamp);
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  line-height: 1;
+  user-select: none;
+}
+
+.stamp[data-status="open"] {
+  color: var(--stamp-open);
+}
+
+.stamp[data-status="done"] {
+  color: var(--stamp-done);
+}
+
+.stamp[data-status="dismissed"] {
+  color: var(--stamp-dismissed);
+  font-size: 1.05em;
+}

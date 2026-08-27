@@ -1,0 +1,8 @@
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  font-weight: 500;
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}

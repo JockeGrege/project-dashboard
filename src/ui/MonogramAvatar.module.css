@@ -1,0 +1,31 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ink-100);
+  background: var(--vault-600);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.avatar[data-size="sm"] {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.avatar[data-size="md"] {
+  width: 44px;
+  height: 44px;
+  font-size: 17px;
+}
+
+.avatar[data-size="lg"] {
+  width: 56px;
+  height: 56px;
+  font-size: 22px;
+}
