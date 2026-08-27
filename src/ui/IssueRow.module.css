@@ -28,6 +28,25 @@
   color: var(--ink-500);
 }
 
+/* Replays on the keyed remount when an issue is completed or dismissed:
+   the text settles into its resolved style rather than snapping. */
+.text[data-status="done"],
+.text[data-status="dismissed"] {
+  animation: resolve 160ms var(--ease-out) both;
+}
+
+@keyframes resolve {
+  from {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text {
+    animation: none;
+  }
+}
+
 .trailing {
   display: inline-flex;
   align-items: center;

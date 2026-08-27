@@ -10,6 +10,10 @@ interface ProjectCardProps {
   accent?: string | null;
   repoHost?: string | null;
   hostMachine?: string | null;
+  /** Position in its grid — drives the page-load stagger. */
+  index?: number;
+  /** Stable name for the flat↔category view transition. */
+  transitionName?: string;
 }
 
 /** A monogram tile in the project grid. */
@@ -19,14 +23,18 @@ export function ProjectCard({
   accent,
   repoHost,
   hostMachine,
+  index = 0,
+  transitionName,
 }: ProjectCardProps) {
   const meta = [repoHost, hostMachine].filter(Boolean).join(" · ");
-  const style = accent
-    ? ({ "--card-accent": accent } as CSSProperties)
-    : undefined;
+  const style: Record<string, string> = {
+    "--enter-delay": `${Math.min(index, 12) * 18}ms`,
+  };
+  if (accent) style["--card-accent"] = accent;
+  if (transitionName) style.viewTransitionName = transitionName;
 
   return (
-    <Link to={to} className={styles.card} style={style}>
+    <Link to={to} className={styles.card} style={style as CSSProperties}>
       {accent ? <span className={styles.dot} aria-hidden="true" /> : null}
       <MonogramAvatar name={name} size="lg" />
       <span className={styles.foot}>

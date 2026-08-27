@@ -48,7 +48,17 @@ export function Dashboard() {
   );
 
   const setView = (viewMode: ViewMode) => {
-    void store.updateSettings({ viewMode });
+    const apply = () => void store.updateSettings({ viewMode });
+    const reduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    // View Transitions morph each card between the flat grid and its bay.
+    // Unsupported browsers (and reduced-motion) just swap.
+    if (!reduced && typeof document.startViewTransition === "function") {
+      document.startViewTransition(apply);
+    } else {
+      apply();
+    }
   };
   const setSort = (sortOrder: ProjectSort) => {
     setPage(1);
@@ -86,11 +96,13 @@ export function Dashboard() {
         ) : flat ? (
           <>
             <div className={styles.grid}>
-              {slice.map((p) => (
+              {slice.map((p, i) => (
                 <ProjectCard
                   key={p.id}
                   name={p.name}
                   to={`/project/${p.id}`}
+                  index={i}
+                  transitionName={`card-${p.id}`}
                   accent={
                     p.categoryId
                       ? accentByCategory.get(p.categoryId) ?? null
@@ -117,6 +129,7 @@ export function Dashboard() {
               <section
                 key={group.key}
                 className={styles.bay}
+                aria-label={group.label}
                 style={{ "--bay-accent": group.colour } as CSSProperties}
               >
                 <span className={styles.bayTab}>{group.label}</span>
@@ -124,11 +137,13 @@ export function Dashboard() {
                   <p className={styles.bayEmpty}>No projects</p>
                 ) : (
                   <div className={styles.grid}>
-                    {group.projects.map((p) => (
+                    {group.projects.map((p, i) => (
                       <ProjectCard
                         key={p.id}
                         name={p.name}
                         to={`/project/${p.id}`}
+                        index={i}
+                        transitionName={`card-${p.id}`}
                         repoHost={hostLabel(p.repoUrl)}
                         hostMachine={p.hostMachine}
                       />

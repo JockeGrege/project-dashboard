@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Modal } from "./Modal";
 import styles from "./ConfirmDialog.module.css";
 
 interface ConfirmDialogProps {
@@ -19,39 +19,30 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onCancel]);
-
   return (
-    <div
-      className={styles.backdrop}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onCancel();
-      }}
+    <Modal
+      onClose={onCancel}
+      label={title}
+      align="center"
+      role="alertdialog"
+      className={styles.panel}
     >
-      <div className={styles.panel} role="alertdialog" aria-label={title}>
-        <p className={styles.title}>{title}</p>
-        {body ? <p className={styles.body}>{body}</p> : null}
-        <div className={styles.actions}>
-          <button type="button" className={styles.cancel} onClick={onCancel}>
-            Cancel
-          </button>
-          <button
-            type="button"
-            className={styles.confirm}
-            data-tone={tone}
-            onClick={onConfirm}
-            autoFocus
-          >
-            {confirmLabel}
-          </button>
-        </div>
+      <p className={styles.title}>{title}</p>
+      {body ? <p className={styles.body}>{body}</p> : null}
+      <div className={styles.actions}>
+        <button type="button" className={styles.cancel} onClick={onCancel}>
+          Cancel
+        </button>
+        <button
+          type="button"
+          className={styles.confirm}
+          data-tone={tone}
+          onClick={onConfirm}
+          autoFocus
+        >
+          {confirmLabel}
+        </button>
       </div>
-    </div>
+    </Modal>
   );
 }

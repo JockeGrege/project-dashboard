@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@/store";
 import { monogram, search } from "@/selectors";
-import { TagChip } from "@/ui";
+import { Modal, TagChip } from "@/ui";
 import styles from "./CommandSearch.module.css";
 
 /**
@@ -15,9 +15,6 @@ export function CommandSearch({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => inputRef.current?.focus(), []);
 
   const results = useMemo(() => {
     const { projects: p, issues: i } = search(query, projects, issues);
@@ -45,26 +42,14 @@ export function CommandSearch({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div
-      className={styles.backdrop}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div
-        className={styles.panel}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Search"
-      >
-        <input
-          ref={inputRef}
+    <Modal onClose={onClose} label="Search" className={styles.panel}>
+      <input
+          autoFocus
           className={styles.input}
           placeholder="Search projects and issues…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Escape") onClose();
             if (e.key === "ArrowDown") {
               e.preventDefault();
               setActive((a) => Math.min(a + 1, results.length - 1));
@@ -113,7 +98,6 @@ export function CommandSearch({ onClose }: { onClose: () => void }) {
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+    </Modal>
   );
 }
