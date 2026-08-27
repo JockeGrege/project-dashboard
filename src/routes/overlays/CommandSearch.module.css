@@ -1,0 +1,128 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12vh var(--sp-4) var(--sp-4);
+  background: rgba(8, 10, 13, 0.62);
+  animation: fade var(--dur-fast) var(--ease-out);
+}
+
+.panel {
+  width: min(560px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background: var(--vault-800);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-overlay);
+  animation: rise var(--dur-mid) var(--ease-out);
+}
+
+.input {
+  width: 100%;
+  font-size: var(--text-heading-m);
+  color: var(--ink-100);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  padding: var(--sp-2) var(--sp-2) var(--sp-3);
+}
+
+.input::placeholder {
+  color: var(--ink-500);
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--brass);
+}
+
+.empty {
+  font-size: var(--text-small);
+  color: var(--ink-500);
+  padding: var(--sp-3) var(--sp-2);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  text-align: left;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.result[data-active="true"] {
+  background: var(--vault-700);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-300);
+  background: var(--vault-600);
+  border-radius: 3px;
+  padding: 2px 5px;
+  flex: none;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-small);
+  color: var(--ink-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text[data-status="done"] {
+  text-decoration: line-through;
+  color: var(--ink-500);
+}
+
+.text[data-status="dismissed"] {
+  color: var(--ink-500);
+}
+
+.kind {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    animation: none;
+  }
+}

@@ -3,6 +3,7 @@ import { AppShell } from "./AppShell";
 import { Dashboard } from "@/routes/Dashboard/Dashboard";
 import { ProjectDetail } from "@/routes/ProjectDetail/ProjectDetail";
 import { NewProjectWizard } from "@/routes/NewProjectWizard/NewProjectWizard";
+import { Settings } from "@/routes/Settings/Settings";
 
 /**
  * Hash routing: GitHub Pages is static and 404s on a hard refresh of a deep
@@ -16,6 +17,7 @@ export const router = createHashRouter([
       { index: true, element: <Dashboard /> },
       { path: "project/:id", element: <ProjectDetail /> },
       { path: "new", element: <NewProjectWizard /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
 ]);

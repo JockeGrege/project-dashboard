@@ -333,9 +333,9 @@ config is exercised only by the deployed site and the pre-deploy smoke.
 2. ✅ `store/` interface + `InMemoryStore` + provider/hook + fixtures.
 3. ✅ `selectors/` with full unit tests (pure, fast, no Firebase yet).
 4. ✅ `ui/` primitives + the status-stamp signature.
-5. 🚧 Screen 1 Dashboard — flat grid, category bays, recent feed, working QuickAdd
-   overlay, `Filed to …` toast. Still to do: ⌘K search, page-load motion, the
-   flat↔category FLIP transition.
+5. 🚧 Screen 1 Dashboard — flat grid, category bays, recent feed, QuickAdd overlay,
+   ✅ ⌘K `CommandSearch`, ✅ `A` / `⌘K` global shortcuts, `Filed to …` toast. Still to
+   do: page-load motion, the flat↔category FLIP transition.
 6. ✅ Screen 2 Project detail — inline composer, per-row menu (edit text, retag,
    complete, dismiss/reopen, delete), editable project meta, tag/status filters, the
    stamp rendering rules. ✅ Screen 3 wizard — the guided 4-step flow with progress
@@ -345,11 +345,15 @@ config is exercised only by the deployed site and the pre-deploy smoke.
    `Timestamp` ⇄ millis) + `AuthGate` + `firestore.rules` + `firebase.json` + `.firebaserc`.
    `VITE_FIREBASE_TARGET` picks `memory` / `emulator` / `live`. 8 integration tests
    against the Emulator Suite + 3 rules tests, run by `npm run test:emulator`.
-   ✅ `.github/workflows/deploy.yml` builds and publishes `dist/` to GitHub Pages.
-8. Settings screen (cards-per-page, view mode, sort, `Deleted issues: N · Purge` with the
-   one confirm); ⌘K search; Playwright capture-path smoke; category-view drag-reorder +
-   collapse persistence (build 2 per DESIGN.md §9).
+   ✅ `.github/workflows/deploy.yml` runs lint + unit + e2e, then publishes `dist/` to
+   GitHub Pages.
+8. ✅ Settings screen — cards-per-page, default view, default sort, category management
+   (rename / recolour / reorder by arrows / delete-to-Uncategorised / add), and
+   `Deleted issues: N · Purge` with the one confirm dialog. `deletedIssueCount` added to
+   the store snapshot for the purge line. ✅ Playwright capture-path + ⌘K smoke
+   (`npm run e2e`). Still deferred to build 2: category-view drag-reorder + collapse
+   persistence (DESIGN.md §9).
 
-Steps 1–7 covered by **84 unit tests** + **11 emulator tests** (8 `FirestoreStore`
-integration, 3 rules). `tsc`, `eslint` (architectural fences included), and
-`vite build` are clean.
+Covered by **85 unit tests** + **11 emulator tests** (8 `FirestoreStore` integration,
+3 rules) + **2 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+included), and `vite build` are clean.
