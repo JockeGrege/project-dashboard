@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { AnvilMark } from "@/ui";
 import { FirestoreStore, type Store } from "@/store";
 import { getDb } from "@/firebase/init";
 import {
@@ -38,10 +39,9 @@ export function AuthGate({ render }: AuthGateProps) {
     return (
       <div className={styles.splash}>
         <div className={styles.card}>
-          <p className={styles.mark} aria-hidden="true">
-            ◧
-          </p>
-          <h1 className={styles.title}>improvements</h1>
+          <AnvilMark className={styles.mark} />
+          <h1 className={styles.title}>Hypomone</h1>
+          <p className={styles.slogan}>Improve, never stop.</p>
           <p className={styles.sub}>Sign in to reach your board.</p>
           <button
             type="button"

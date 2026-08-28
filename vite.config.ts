@@ -15,15 +15,15 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "apple-touch-icon.png", "icon.svg"],
       manifest: {
-        name: "Project Improvement Tracker",
-        short_name: "Improvements",
+        name: "Hypomone",
+        short_name: "Hypomone",
         description:
-          "A private board for capturing improvement ideas across your projects.",
+          "Improve, never stop. A private board for shaping your projects, one improvement at a time.",
         start_url: base,
         scope: base,
         display: "standalone",
-        background_color: "#14171c",
-        theme_color: "#14171c",
+        background_color: "#151617",
+        theme_color: "#151617",
         icons: [
           { src: "pwa-192.png", sizes: "192x192", type: "image/png" },
           { src: "pwa-512.png", sizes: "512x512", type: "image/png" },

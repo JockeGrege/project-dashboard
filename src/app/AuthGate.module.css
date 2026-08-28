@@ -21,19 +21,33 @@
 }
 
 .mark {
-  font-size: 28px;
+  font-size: 44px;
   color: var(--brass);
 }
 
 .title {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-wordmark);
+  font-weight: 600;
   font-size: var(--text-display-l);
-  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  letter-spacing: var(--track-wordmark);
+  margin-right: calc(-1 * var(--track-wordmark));
   color: var(--ink-100);
 }
 
+.slogan {
+  margin-top: calc(-1 * var(--sp-1));
+  font-family: var(--font-slogan);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--track-slogan);
+  margin-right: calc(-1 * var(--track-slogan));
+  color: var(--brass);
+}
+
 .sub {
+  margin-top: var(--sp-2);
   color: var(--ink-300);
   font-family: var(--font-body);
   font-size: var(--text-small);

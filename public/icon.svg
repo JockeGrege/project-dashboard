@@ -1,8 +1,10 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" rx="112" fill="#1B1F26"/>
-  <g>
-    <rect x="146" y="146" width="220" height="220" rx="16" fill="#E0C878"/>
-    <rect x="256" y="146" width="110" height="220" rx="0" fill="#1B1F26"/>
-    <rect x="146" y="146" width="220" height="220" rx="16" fill="none" stroke="#E0C878" stroke-width="14"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hypomone">
+  <rect width="512" height="512" rx="112" fill="#151617"/>
+  <g transform="translate(46.4 59.2) scale(0.8)" fill="#C59A55">
+    <path d="M84 268 Q126 244 168 244 L424 244 L424 296 L388 296 Q384 328 360 360 L360 380 Q378 408 424 412 L440 452 L128 452 L144 412 Q194 408 216 380 L216 360 Q192 328 188 296 L168 296 Q126 296 84 268 Z"/>
+    <path d="M210 244 L224 236 L178 196 Z"/>
+    <path d="M226 248 L238 243 L216 186 Z"/>
+    <path d="M242 245 L251 252 L264 192 Z"/>
+    <g transform="rotate(-34 235 170)"><rect x="202" y="112" width="66" height="116" rx="10"/><rect x="254" y="151" width="196" height="38" rx="17"/></g>
   </g>
 </svg>

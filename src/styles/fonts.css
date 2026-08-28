@@ -1,5 +1,8 @@
 /* Self-hosted via @fontsource — no runtime CDN.
-   Display: Bricolage Grotesque (variable). Body: IBM Plex Sans. Data: IBM Plex Mono. */
+   Wordmark: Cinzel (variable). Display: Bricolage Grotesque (variable).
+   Body: IBM Plex Sans. Data: IBM Plex Mono. Slogan: Inter. */
+
+@import "@fontsource-variable/cinzel/index.css";
 
 @import "@fontsource-variable/bricolage-grotesque/index.css";
 
@@ -9,3 +12,6 @@
 
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
+
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";

@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("file an idea with the keyboard and see it in the feed", async ({ page }) => {
   await page.goto("/#/");
   await expect(
-    page.getByRole("link", { name: /improvements/i }),
+    page.getByRole("link", { name: /hypomone/i }),
   ).toBeVisible();
 
   // `a` from anywhere opens the capture overlay.

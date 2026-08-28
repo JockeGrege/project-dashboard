@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { Button } from "@/ui";
+import { AnvilMark, Button } from "@/ui";
 import { QuickAdd } from "@/routes/overlays/QuickAdd";
 import { CommandSearch } from "@/routes/overlays/CommandSearch";
 import { useToast } from "./toast-context";
@@ -55,10 +55,8 @@ export function AppShell() {
       </a>
       <header className={styles.bar}>
         <Link to="/" className={styles.wordmark}>
-          <span className={styles.mark} aria-hidden="true">
-            ◧
-          </span>
-          improvements
+          <AnvilMark className={styles.mark} />
+          <span className={styles.name}>Hypomone</span>
         </Link>
 
         <div className={styles.actions}>

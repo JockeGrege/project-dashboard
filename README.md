@@ -1,9 +1,20 @@
-# Project Improvement Tracker
+# Hypomone
+
+**Improve, never stop.**
 
 A private, single-user board for capturing improvement ideas across many projects —
 open the app, find the project, type a sentence, done. Concept in
 [project-improvements-spec.md](project-improvements-spec.md); visual direction in
 [DESIGN.md](DESIGN.md); module design in [ARCHITECTURE.md](ARCHITECTURE.md).
+
+The name is Greek — *hypomonē*, endurance under pressure. The mark is an anvil
+under a raised hammer, sparks between them: something shaped and strengthened by
+repeated blows. Palette is warm charcoal `#151617`, antique gold `#C59A55`, warm
+ivory `#F2EEE6`; the wordmark is Cinzel, the UI keeps IBM Plex Sans / Mono. Logo
+source is [`public/symbol.svg`](public/symbol.svg) and
+[`src/ui/AnvilMark.tsx`](src/ui/AnvilMark.tsx) (the favicon falls back to the
+anvil alone, which stays legible at tab size); `node scripts/gen-icons.mjs`
+rebuilds the PNG app icons.
 
 Vite + React + TypeScript + CSS Modules, Firebase (Auth + Firestore), deployed to
 GitHub Pages.

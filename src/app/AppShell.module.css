@@ -44,17 +44,32 @@
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--text-heading-m);
-  letter-spacing: var(--track-display);
+  gap: var(--sp-3);
   color: var(--ink-100);
 }
 
 .mark {
+  flex: none;
+  font-size: 30px;
   color: var(--brass);
-  font-size: 1.1em;
+}
+
+.name {
+  font-family: var(--font-wordmark);
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: var(--track-wordmark);
+  /* the tracking adds a trailing gap; pull the following flex gap back in */
+  margin-right: calc(-1 * var(--track-wordmark));
+  color: var(--ink-100);
+}
+
+@media (max-width: 620px) {
+  .name {
+    letter-spacing: 0.12em;
+    margin-right: -0.12em;
+  }
 }
 
 .actions {
@@ -81,10 +96,12 @@
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  min-height: 36px;
-  font-size: 16px;
+  min-width: 40px;
+  min-height: 40px;
+  font-size: 21px;
+  line-height: 1;
   color: var(--ink-300);
-  padding: 6px 10px;
+  padding: 0 8px;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   transition:
@@ -138,6 +155,14 @@
 
   .actions {
     gap: var(--sp-2);
+  }
+
+  /* full 44px touch targets on phones */
+  .iconBtn {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 23px;
+    padding: 0;
   }
 
   /* Hide the header Add; use the floating one instead. */

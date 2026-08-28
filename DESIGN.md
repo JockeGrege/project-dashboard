@@ -62,6 +62,18 @@ Nothing else in the UI gets to be this expressive. The stamp is the one accessor
 
 ## 4. Tokens
 
+> **Brand update — Hypomone.** After launch the board took on the Hypomone
+> identity (endurance under pressure; the mark is an anvil under a raised hammer,
+> sparks between). The token *roles* below are unchanged; the *values* were
+> retuned to warm charcoal `#151617`,
+> antique gold `#C59A55` (still the sole control colour, replacing brass), and
+> warm ivory `#F2EEE6`. The wordmark switched to **Cinzel** (Roman-inscription
+> caps, `--font-wordmark`, tracked `0.18em`); screen headings stay on Bricolage
+> Grotesque and the UI stays IBM Plex Sans / Mono, since those headings carry
+> user-typed names. The slogan *IMPROVE, NEVER STOP.* uses Inter. Live values are
+> in [`src/styles/tokens.css`](src/styles/tokens.css); the anvil is
+> [`public/symbol.svg`](public/symbol.svg).
+
 ### Colour — a desaturated slate board, one brass control, meaning-only hues
 
 ```
