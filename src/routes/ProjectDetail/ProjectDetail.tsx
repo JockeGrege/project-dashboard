@@ -80,12 +80,14 @@ export function ProjectDetail() {
           <div className={styles.linkline}>
             {project.repoUrl ? (
               <ExternalLink href={project.repoUrl} wrap>
-                {project.repoUrl}
+                <span className={styles.urlFull}>{project.repoUrl}</span>
+                <span className={styles.urlShort}>repo</span>
               </ExternalLink>
             ) : null}
             {project.websiteUrl ? (
               <ExternalLink href={project.websiteUrl} wrap>
-                {project.websiteUrl}
+                <span className={styles.urlFull}>{project.websiteUrl}</span>
+                <span className={styles.urlShort}>website</span>
               </ExternalLink>
             ) : null}
             {project.hostMachine ? (

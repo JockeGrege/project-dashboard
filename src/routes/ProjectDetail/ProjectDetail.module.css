@@ -89,6 +89,11 @@
   color: var(--ink-500);
 }
 
+/* Full URL on desktop; a short label on phones, where it would wrap to 3 lines. */
+.urlShort {
+  display: none;
+}
+
 .detailsWrap {
   display: flex;
   flex-direction: column;
@@ -176,6 +181,14 @@
 }
 
 @media (max-width: 620px) {
+  .urlFull {
+    display: none;
+  }
+
+  .urlShort {
+    display: inline;
+  }
+
   .filterRow {
     flex-wrap: nowrap;
   }
