@@ -13,6 +13,12 @@
   padding: 12vh var(--sp-4) var(--sp-4);
 }
 
+@media (max-width: 620px) {
+  .top {
+    padding: 6vh var(--sp-3) var(--sp-3);
+  }
+}
+
 .center {
   align-items: center;
   padding: var(--sp-4);

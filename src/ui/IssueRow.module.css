@@ -16,6 +16,16 @@
   min-width: 0;
   color: var(--ink-100);
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* In the global feed and search, clamp multi-line notes to a preview. */
+.row[data-interactive] .text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .text[data-status="done"] {
@@ -78,12 +88,37 @@
 
 @media (max-width: 620px) {
   .row {
+    position: relative;
     flex-wrap: wrap;
+    padding-right: 30px;
+    gap: var(--sp-2) var(--sp-3);
+  }
+
+  .text {
+    font-size: var(--text-body);
   }
 
   .trailing {
     width: 100%;
     padding-left: var(--gutter-stamp);
     gap: var(--sp-2);
+    flex-wrap: wrap;
+  }
+
+  .project,
+  .time {
+    font-size: var(--text-small);
+  }
+
+  .time {
+    color: var(--ink-300);
+    text-align: left;
+  }
+
+  /* pin the row menu to the top-right instead of letting it wrap onto its own line */
+  .actions {
+    position: absolute;
+    top: var(--sp-2);
+    right: 0;
   }
 }

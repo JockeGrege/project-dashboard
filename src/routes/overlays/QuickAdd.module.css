@@ -1,5 +1,7 @@
 .panel {
   width: min(520px, 100%);
+  max-height: min(80vh, 720px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
@@ -11,34 +13,19 @@
   animation: rise var(--dur-mid) var(--ease-out);
 }
 
+@media (max-width: 620px) {
+  .panel {
+    padding: var(--sp-4);
+    gap: var(--sp-3);
+  }
+}
+
 .title {
   font-family: var(--font-mono);
   font-size: var(--text-tab);
   letter-spacing: var(--track-tab);
   text-transform: uppercase;
   color: var(--ink-500);
-}
-
-.text {
-  width: 100%;
-  font-size: var(--text-display-l);
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: var(--track-display);
-  color: var(--ink-100);
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--rule);
-  padding: var(--sp-2) 0;
-}
-
-.text::placeholder {
-  color: var(--ink-500);
-}
-
-.text:focus {
-  outline: none;
-  border-bottom-color: var(--brass);
 }
 
 .projectField {

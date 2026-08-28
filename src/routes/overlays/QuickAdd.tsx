@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import type { Project, Tag } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import { monogram } from "@/selectors";
-import { Modal, TagPicker } from "@/ui";
+import { IssueTextArea, Modal, TagPicker } from "@/ui";
 import styles from "./QuickAdd.module.css";
 
 interface QuickAddProps {
@@ -64,86 +64,86 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
     <Modal onClose={onClose} label="File an idea" className={styles.panel}>
       <p className={styles.title}>File an idea</p>
 
-      <input
-        autoFocus
-        className={styles.text}
-        placeholder="What's the improvement?"
+      <IssueTextArea
         value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && canSubmit) submit();
-        }}
+        onChange={setText}
+        onSubmit={submit}
+        placeholder="What's the improvement?"
+        autoFocus
+        variant="display"
+        minRows={5}
+        label="Issue text"
       />
 
-        <div className={styles.projectField}>
-          <span className={styles.arrow} aria-hidden="true">
-            →
-          </span>
-          {pickedProject ? (
-            <button
-              type="button"
-              className={styles.pickedChip}
-              onClick={() => {
-                setPicked(null);
-                setQuery("");
-              }}
-            >
-              <span className={styles.chipMono}>
-                {monogram(pickedProject.name)}
-              </span>
-              {pickedProject.name}
-              <span aria-hidden="true">×</span>
-            </button>
-          ) : (
-            <input
-              className={styles.projectInput}
-              placeholder="project"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          )}
-        </div>
-
-        {!pickedProject ? (
-          <ul className={styles.results}>
-            {matches.map((p) => (
-              <li key={p.id}>
-                <button
-                  type="button"
-                  className={styles.result}
-                  onClick={() => setPicked(p.id)}
-                >
-                  <span className={styles.chipMono}>{monogram(p.name)}</span>
-                  {p.name}
-                </button>
-              </li>
-            ))}
-            {matches.length === 0 ? (
-              <li className={styles.noResults}>No project matches “{query}”.</li>
-            ) : null}
-          </ul>
-        ) : null}
-
-        <div className={styles.tagRow}>
-          <span className={styles.tagHint}>tag — optional</span>
-          <TagPicker value={tag} onChange={setTag} />
-        </div>
-
-        {error ? <p className={styles.error}>{error}</p> : null}
-
-        <div className={styles.footer}>
-          <button type="button" className={styles.cancel} onClick={onClose}>
-            Cancel
-          </button>
+      <div className={styles.projectField}>
+        <span className={styles.arrow} aria-hidden="true">
+          →
+        </span>
+        {pickedProject ? (
           <button
             type="button"
-            className={styles.file}
-            disabled={!canSubmit}
-            onClick={submit}
+            className={styles.pickedChip}
+            onClick={() => {
+              setPicked(null);
+              setQuery("");
+            }}
           >
-            {busy ? "Filing…" : "File ⏎"}
+            <span className={styles.chipMono}>
+              {monogram(pickedProject.name)}
+            </span>
+            {pickedProject.name}
+            <span aria-hidden="true">×</span>
           </button>
-        </div>
+        ) : (
+          <input
+            className={styles.projectInput}
+            placeholder="project"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        )}
+      </div>
+
+      {!pickedProject ? (
+        <ul className={styles.results}>
+          {matches.map((p) => (
+            <li key={p.id}>
+              <button
+                type="button"
+                className={styles.result}
+                onClick={() => setPicked(p.id)}
+              >
+                <span className={styles.chipMono}>{monogram(p.name)}</span>
+                {p.name}
+              </button>
+            </li>
+          ))}
+          {matches.length === 0 ? (
+            <li className={styles.noResults}>No project matches “{query}”.</li>
+          ) : null}
+        </ul>
+      ) : null}
+
+      <div className={styles.tagRow}>
+        <span className={styles.tagHint}>tag — optional</span>
+        <TagPicker value={tag} onChange={setTag} />
+      </div>
+
+      {error ? <p className={styles.error}>{error}</p> : null}
+
+      <div className={styles.footer}>
+        <button type="button" className={styles.cancel} onClick={onClose}>
+          Cancel
+        </button>
+        <button
+          type="button"
+          className={styles.file}
+          disabled={!canSubmit}
+          onClick={submit}
+        >
+          {busy ? "Filing…" : "File ⌘⏎"}
+        </button>
+      </div>
     </Modal>
   );
 }

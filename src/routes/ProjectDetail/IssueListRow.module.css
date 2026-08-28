@@ -1,24 +1,23 @@
 .editRow {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--sp-2);
-  padding: var(--sp-2);
+  padding: var(--sp-3) var(--sp-2);
   padding-left: calc(var(--gutter-stamp) + var(--sp-3));
 }
 
-.input {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--text-body);
-  color: var(--ink-100);
-  background: var(--vault-700);
-  border: 1px solid var(--brass);
-  border-radius: var(--radius-sm);
-  padding: 6px 9px;
+.editActions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
 }
 
-.input:focus {
-  outline: none;
+.hint {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
 }
 
 .save {
@@ -27,7 +26,7 @@
   font-weight: 600;
   color: var(--vault-900);
   background: var(--brass);
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-sm);
 }
 
@@ -35,11 +34,17 @@
   flex: none;
   font-size: var(--text-small);
   color: var(--ink-300);
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
 }
 
 .cancel:hover {
   color: var(--ink-100);
   background: var(--vault-700);
+}
+
+@media (max-width: 620px) {
+  .hint {
+    display: none;
+  }
 }

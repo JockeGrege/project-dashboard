@@ -365,6 +365,25 @@ only by the deployed site.
    (`npm run e2e`). Still deferred to build 2: category-view drag-reorder + collapse
    persistence (DESIGN.md §9).
 
+### Post-launch follow-ups (shipped)
+
+- **PWA** — `vite-plugin-pwa` (`generateSW`, `autoUpdate`): manifest, generated
+  icons in `public/`, offline app-shell precache, `navigateFallback` to
+  `index.html` (hash routing). SW registered in `src/app/pwa.ts`, which also
+  exposes `useInstallPrompt()` for the header "install" button.
+- **Mobile** — a fixed floating "Add" button (a dedicated element at the shell
+  root, because the header's `backdrop-filter` traps `position: fixed`
+  descendants); "New project" moved to a button in the dashboard Projects header
+  (it was hidden on mobile with no replacement); feed/detail readability pass
+  (larger text, higher-contrast metadata, row menu pinned instead of wrapping,
+  horizontally-scrolling filter chips).
+- **Multi-line issue text** — new `ui/IssueTextArea` primitive: autogrowing
+  `textarea` (min 5 rows in capture, 2 inline), caps at ~50vh then scrolls, an
+  expand control opens a full-screen editor. Enter inserts a newline; submit is
+  Cmd/Ctrl+Enter or the button. Used by QuickAdd, `IssueComposer`, and the
+  `IssueListRow` edit mode. `IssueRow` renders `white-space: pre-wrap`, clamped
+  to 3 lines in the feed/search.
+
 Covered by **85 unit tests** + **11 emulator tests** (8 `FirestoreStore` integration,
-3 rules) + **2 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+3 rules) + **3 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
 included), and `vite build` are clean.

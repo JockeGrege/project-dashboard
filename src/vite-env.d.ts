@@ -1,4 +1,14 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-pwa/client" />
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  readonly userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
+interface WindowEventMap {
+  beforeinstallprompt: BeforeInstallPromptEvent;
+}
 
 interface ImportMetaEnv {
   readonly VITE_FIREBASE_API_KEY: string;

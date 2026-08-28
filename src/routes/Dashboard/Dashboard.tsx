@@ -1,4 +1,5 @@
 import { useMemo, useState, type CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import type { ProjectSort, ViewMode } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import {
@@ -86,6 +87,9 @@ export function Dashboard() {
               label="Project view"
             />
             <SortMenu value={settings.sortOrder} onChange={setSort} />
+            <Link to="/new" className={styles.newProject}>
+              <span aria-hidden="true">+</span> new
+            </Link>
           </div>
         </header>
 
