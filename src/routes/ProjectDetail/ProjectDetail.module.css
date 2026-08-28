@@ -213,6 +213,30 @@
   }
 }
 
+.bulkBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(-1 * var(--sp-1));
+}
+
+.bulkBtn {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.bulkBtn:hover {
+  color: var(--ink-100);
+  background: var(--vault-700);
+}
+
 .rows {
   display: flex;
   flex-direction: column;

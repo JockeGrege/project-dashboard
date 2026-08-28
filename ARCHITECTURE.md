@@ -410,7 +410,18 @@ only by the deployed site.
   `ui/Markdown` notes (`marked` + `dompurify`, pulled in a lazy chunk). `linkify`
   selector + `ui/LinkText` turn bare URLs in plain text into links. The new
   wizard and `ProjectMetaEditor` edit all of it (repeatable link rows).
+- **Bulk delete** — with the project's status filter on `done` or `dismissed`, a
+  discrete "Delete all done / dismissed (N)" button soft-deletes the whole
+  filtered set at once (`Promise.all` of `deleteIssue`) behind a `ConfirmDialog`.
+  They land in Deleted issues; Settings still purges. (There is no restore view,
+  so the label stays "Delete", not "Archive".)
+- **Settings `cards per page`** — edited via local text state committed on blur,
+  so the field can be cleared to retype; a fully controlled number input snapped
+  back to the last valid value on every keystroke and a lone digit could not be
+  deleted on mobile.
+- **Mobile floating Add** — lifted ~40px into the thumb arc (`--sp-6 + 8px`),
+  with `main` bottom padding raised to match so nothing hides behind it.
 
 Covered by **100 unit tests** + **11 emulator tests** (8 `FirestoreStore` integration,
-3 rules) + **5 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+3 rules) + **6 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
 included), and `vite build` are clean.

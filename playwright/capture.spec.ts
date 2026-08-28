@@ -85,6 +85,41 @@ test("deleting an issue asks to confirm first", async ({ page }) => {
   await expect(page.getByRole("listitem")).toHaveCount(before - 1);
 });
 
+test("bulk-delete done issues and bulk-delete dismissed issues", async ({
+  page,
+}) => {
+  await page.goto("/#/");
+  await page.locator("body").press("ControlOrMeta+k");
+  await page.getByPlaceholder("Search projects and issues…").fill("core");
+  await page.getByRole("button", { name: "CO core project" }).click();
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+
+  await page.getByRole("button", { name: "done", exact: true }).click();
+  const clearDone = page.getByRole("button", { name: /delete all done/i });
+  await expect(clearDone).toBeVisible();
+  await clearDone.click();
+  await page
+    .getByRole("alertdialog")
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await expect(clearDone).toBeHidden();
+  await expect(
+    page.getByText("No issues match this filter."),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "dismissed", exact: true }).click();
+  const clearDismissed = page.getByRole("button", {
+    name: /delete all dismissed/i,
+  });
+  await expect(clearDismissed).toBeVisible();
+  await clearDismissed.click();
+  await page
+    .getByRole("alertdialog")
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await expect(clearDismissed).toBeHidden();
+});
+
 test("command search jumps to a project", async ({ page }) => {
   await page.goto("/#/");
   await page.locator("body").press("ControlOrMeta+k");
