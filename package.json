@@ -12,7 +12,10 @@
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "emulators": "firebase emulators:start --only auth,firestore",
+    "gen:rules": "node scripts/gen-firestore-rules.mjs",
+    "deploy:rules": "npm run gen:rules && firebase deploy --only firestore:rules",
+    "emulators": "npm run gen:rules && firebase emulators:start --only auth,firestore",
+    "pretest:emulator": "npm run gen:rules",
     "test:emulator": "firebase emulators:exec --only auth,firestore \"vitest run --config vitest.emulator.config.ts\"",
     "e2e": "playwright test"
   },

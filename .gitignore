@@ -18,6 +18,10 @@ dist-ssr/
 .env.local
 .env.*.local
 
+# generated from firestore.rules.template by scripts/gen-firestore-rules.mjs;
+# holds the real VITE_ALLOWED_UID and must not be committed to the public repo
+firestore.rules
+
 # test / tooling caches
 coverage/
 playwright-report/

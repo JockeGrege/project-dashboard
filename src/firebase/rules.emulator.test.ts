@@ -15,11 +15,13 @@ const INTRUDER = "someone-else";
 let env: RulesTestEnvironment;
 
 beforeAll(async () => {
-  const rulesPath = fileURLToPath(
-    new URL("../../firestore.rules", import.meta.url),
+  // Read the template directly so the test doesn't depend on `gen:rules` having
+  // run, and pin it to a known owner.
+  const templatePath = fileURLToPath(
+    new URL("../../firestore.rules.template", import.meta.url),
   );
-  const rules = (await readFile(rulesPath, "utf8")).replace(
-    "REPLACE_WITH_VITE_ALLOWED_UID",
+  const rules = (await readFile(templatePath, "utf8")).replaceAll(
+    "__ALLOWED_UID__",
     OWNER,
   );
   env = await initializeTestEnvironment({
