@@ -159,9 +159,4 @@
     flex-wrap: wrap;
     gap: var(--sp-2);
   }
-
-  /* leave room for the floating Add button */
-  .feed {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom));
-  }
 }

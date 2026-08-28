@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PROJECT_SORTS, VIEW_MODES, type ProjectSort, type ViewMode } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
@@ -26,6 +26,26 @@ export function Settings() {
   const now = Date.now();
   const [confirmPurge, setConfirmPurge] = useState(false);
 
+  // Edited as free text so the field can be cleared to type a new value — a
+  // fully controlled number input snaps back to the last valid number on every
+  // keystroke, which made a single digit impossible to delete on mobile.
+  const [cppText, setCppText] = useState(String(settings.cardsPerPage));
+  useEffect(() => {
+    setCppText(String(settings.cardsPerPage));
+  }, [settings.cardsPerPage]);
+
+  const commitCardsPerPage = () => {
+    const n = Math.floor(Number(cppText));
+    if (Number.isFinite(n) && n >= 1 && n <= 64) {
+      if (n !== settings.cardsPerPage) {
+        void store.updateSettings({ cardsPerPage: n });
+      }
+      setCppText(String(n));
+    } else {
+      setCppText(String(settings.cardsPerPage));
+    }
+  };
+
   return (
     <div className={styles.page}>
       <Link to="/" className={styles.back}>
@@ -46,15 +66,15 @@ export function Settings() {
           <input
             id="cpp"
             type="number"
+            inputMode="numeric"
             min={1}
             max={64}
             className={styles.number}
-            value={settings.cardsPerPage}
-            onChange={(e) => {
-              const n = Number(e.target.value);
-              if (Number.isFinite(n) && n >= 1 && n <= 64) {
-                void store.updateSettings({ cardsPerPage: Math.floor(n) });
-              }
+            value={cppText}
+            onChange={(e) => setCppText(e.target.value)}
+            onBlur={commitCardsPerPage}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.currentTarget.blur();
             }}
           />
         </div>

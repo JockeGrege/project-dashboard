@@ -2,9 +2,10 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import type { IssueStatus, TagFilter } from "@/domain";
 import { TAG_LIST } from "@/domain";
-import { useStore } from "@/store";
+import { useStore, useStoreApi } from "@/store";
+import { useToast } from "@/app/toast-context";
 import { filterProjectIssues } from "@/selectors";
-import { ExternalLink, LinkText, MonogramAvatar } from "@/ui";
+import { ConfirmDialog, ExternalLink, LinkText, MonogramAvatar } from "@/ui";
 import { IssueComposer } from "./IssueComposer";
 import { IssueListRow } from "./IssueListRow";
 import { ProjectMetaEditor } from "./ProjectMetaEditor";
@@ -30,12 +31,16 @@ const STATUS_FILTERS: ReadonlyArray<{
 export function ProjectDetail() {
   const { id = "" } = useParams();
   const { projects, issues } = useStore();
+  const store = useStoreApi();
+  const toast = useToast();
   const now = Date.now();
 
   const [tag, setTag] = useState<TagFilter>("all");
   const [status, setStatus] = useState<IssueStatus | "all">("all");
   const [editingMeta, setEditingMeta] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [bulkFor, setBulkFor] = useState<"done" | "dismissed" | null>(null);
+  const [bulkBusy, setBulkBusy] = useState(false);
 
   const project = projects.find((p) => p.id === id) ?? null;
 
@@ -147,6 +152,20 @@ export function ProjectDetail() {
 
       <IssueComposer projectId={project.id} />
 
+      {(status === "done" || status === "dismissed") && list.length > 0 ? (
+        <div className={styles.bulkBar}>
+          <button
+            type="button"
+            className={styles.bulkBtn}
+            onClick={() => setBulkFor(status)}
+          >
+            {status === "done"
+              ? `Delete all done (${list.length})`
+              : `Delete all dismissed (${list.length})`}
+          </button>
+        </div>
+      ) : null}
+
       {list.length === 0 ? (
         <p className={styles.empty}>
           {issues.some((i) => i.projectId === id)
@@ -162,6 +181,32 @@ export function ProjectDetail() {
           ))}
         </ul>
       )}
+
+      {bulkFor ? (
+        <ConfirmDialog
+          title={`Delete ${list.length} ${bulkFor} ${
+            list.length === 1 ? "issue" : "issues"
+          }?`}
+          body="They move to Deleted issues. Purge in Settings removes them for good."
+          confirmLabel="Delete"
+          tone="danger"
+          onCancel={() => setBulkFor(null)}
+          onConfirm={async () => {
+            if (bulkBusy) return;
+            setBulkBusy(true);
+            const ids = list.map((i) => i.id);
+            try {
+              await Promise.all(ids.map((issueId) => store.deleteIssue(issueId)));
+              toast(
+                `Deleted ${ids.length} ${ids.length === 1 ? "issue" : "issues"}`,
+              );
+            } finally {
+              setBulkBusy(false);
+              setBulkFor(null);
+            }
+          }}
+        />
+      ) : null}
     </div>
   );
 }

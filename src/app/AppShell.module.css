@@ -145,7 +145,8 @@
 
   .main {
     padding: var(--sp-4);
-    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    /* clear the raised floating Add button */
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
   }
 
   .newProject,
@@ -176,7 +177,8 @@
     gap: 6px;
     position: fixed;
     right: var(--sp-4);
-    bottom: calc(var(--sp-4) + env(safe-area-inset-bottom));
+    /* lifted into the thumb arc, clear of the home indicator */
+    bottom: calc(var(--sp-6) + 8px + env(safe-area-inset-bottom));
     z-index: 40;
     font-family: var(--font-body);
     font-size: var(--text-body);
