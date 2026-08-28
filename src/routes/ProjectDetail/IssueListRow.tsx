@@ -11,6 +11,12 @@ interface IssueListRowProps {
   now: number;
 }
 
+/** The first few words of an issue, for a delete confirm that names its target. */
+function previewWords(text: string, count = 7): string {
+  const words = text.trim().split(/\s+/);
+  return words.slice(0, count).join(" ") + (words.length > count ? "…" : "");
+}
+
 export function IssueListRow({ issue, now }: IssueListRowProps) {
   const store = useStoreApi();
   const [editing, setEditing] = useState(false);
@@ -82,7 +88,7 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
       {confirmingDelete ? (
         <ConfirmDialog
           title="Delete this issue?"
-          body="It moves to Deleted issues. Purge in Settings removes it for good."
+          body={`“${previewWords(issue.text)}” moves to Deleted issues. Purge in Settings removes it for good.`}
           confirmLabel="Delete"
           tone="danger"
           onConfirm={() => {

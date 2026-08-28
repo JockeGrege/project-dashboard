@@ -7,6 +7,8 @@ interface ExternalLinkProps {
   children?: ReactNode;
   /** Drop the trailing ↗ (e.g. inside a dense list). */
   hideIcon?: boolean;
+  /** Let a long label wrap across lines instead of truncating with an ellipsis. */
+  wrap?: boolean;
   className?: string | undefined;
 }
 
@@ -15,6 +17,7 @@ export function ExternalLink({
   href,
   children,
   hideIcon = false,
+  wrap = false,
   className,
 }: ExternalLinkProps) {
   const label = children ?? hostOf(href);
@@ -25,7 +28,9 @@ export function ExternalLink({
       target="_blank"
       rel="noreferrer noopener"
     >
-      <span className={styles.label}>{label}</span>
+      <span className={`${styles.label}${wrap ? ` ${styles.wrap}` : ""}`}>
+        {label}
+      </span>
       {hideIcon ? null : (
         <span className={styles.icon} aria-hidden="true">
           ↗

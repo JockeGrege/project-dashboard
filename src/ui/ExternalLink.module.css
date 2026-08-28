@@ -18,6 +18,13 @@
   text-underline-offset: 2px;
 }
 
+.label.wrap {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .link:hover {
   color: var(--ink-100);
 }

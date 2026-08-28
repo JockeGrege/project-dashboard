@@ -79,10 +79,14 @@ export function ProjectDetail() {
           ) : null}
           <div className={styles.linkline}>
             {project.repoUrl ? (
-              <ExternalLink href={project.repoUrl}>repo</ExternalLink>
+              <ExternalLink href={project.repoUrl} wrap>
+                {project.repoUrl}
+              </ExternalLink>
             ) : null}
             {project.websiteUrl ? (
-              <ExternalLink href={project.websiteUrl}>site</ExternalLink>
+              <ExternalLink href={project.websiteUrl} wrap>
+                {project.websiteUrl}
+              </ExternalLink>
             ) : null}
             {project.hostMachine ? (
               <span className={styles.hostChip}>⌂ {project.hostMachine}</span>
