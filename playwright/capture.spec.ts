@@ -38,6 +38,55 @@ test("issue text is multi-line and expands to full screen", async ({ page }) => 
   await expect(field).toHaveValue("line one\nline two\nline three");
 });
 
+test("⌘⏎ files the idea even when focus has left the textarea", async ({
+  page,
+}) => {
+  await page.goto("/#/");
+  await page.locator("body").press("a");
+
+  const idea = "harden the offline cache eviction";
+  await page.getByPlaceholder("What's the improvement?").fill(idea);
+  await page.getByPlaceholder("project").fill("core");
+  await page.getByRole("button", { name: "CO core" }).click();
+
+  // Focus now sits on the picked-project chip, not the textarea — the reported
+  // repro, where ⌘⏎ used to just toggle the chip.
+  const chip = page.getByRole("button", { name: "CO core" });
+  await chip.focus();
+  await chip.press("ControlOrMeta+Enter");
+
+  await expect(page.getByText("Filed to core")).toBeVisible();
+  await expect(page.getByText(idea)).toBeVisible();
+});
+
+test("deleting an issue asks to confirm first", async ({ page }) => {
+  await page.goto("/#/");
+  await page.locator("body").press("ControlOrMeta+k");
+  await page.getByPlaceholder("Search projects and issues…").fill("core");
+  await page.getByRole("button", { name: "CO core project" }).click();
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+
+  const actions = page.getByRole("button", { name: "Issue actions" }).first();
+  await actions.click();
+  await page.getByRole("menuitem", { name: "Delete" }).click();
+
+  const dialog = page.getByRole("alertdialog", { name: "Delete this issue?" });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("button", { name: "Cancel" }).click();
+  await expect(dialog).toBeHidden();
+
+  // Confirming this time actually removes the row.
+  const before = await page.getByRole("listitem").count();
+  await actions.click();
+  await page.getByRole("menuitem", { name: "Delete" }).click();
+  await page
+    .getByRole("alertdialog")
+    .getByRole("button", { name: "Delete" })
+    .click();
+  await expect(page.getByRole("alertdialog")).toBeHidden();
+  await expect(page.getByRole("listitem")).toHaveCount(before - 1);
+});
+
 test("command search jumps to a project", async ({ page }) => {
   await page.goto("/#/");
   await page.locator("body").press("ControlOrMeta+k");

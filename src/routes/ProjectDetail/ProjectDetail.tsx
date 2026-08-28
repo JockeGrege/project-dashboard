@@ -4,10 +4,11 @@ import type { IssueStatus, TagFilter } from "@/domain";
 import { TAG_LIST } from "@/domain";
 import { useStore } from "@/store";
 import { filterProjectIssues } from "@/selectors";
-import { MonogramAvatar } from "@/ui";
+import { ExternalLink, LinkText, MonogramAvatar } from "@/ui";
 import { IssueComposer } from "./IssueComposer";
 import { IssueListRow } from "./IssueListRow";
 import { ProjectMetaEditor } from "./ProjectMetaEditor";
+import { ProjectDetailsPanel } from "./ProjectDetailsPanel";
 import styles from "./ProjectDetail.module.css";
 
 const TAG_FILTERS: ReadonlyArray<{ value: TagFilter; label: string }> = [
@@ -34,6 +35,7 @@ export function ProjectDetail() {
   const [tag, setTag] = useState<TagFilter>("all");
   const [status, setStatus] = useState<IssueStatus | "all">("all");
   const [editingMeta, setEditingMeta] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const project = projects.find((p) => p.id === id) ?? null;
 
@@ -53,7 +55,12 @@ export function ProjectDetail() {
     );
   }
 
-  const links = [project.repoUrl, project.hostMachine].filter(Boolean).join(" · ");
+  const noLinks =
+    !project.repoUrl && !project.websiteUrl && !project.hostMachine;
+  const hasDetails =
+    project.links.length > 0 ||
+    project.notes !== null ||
+    project.description !== null;
 
   return (
     <div className={styles.page}>
@@ -65,7 +72,25 @@ export function ProjectDetail() {
         <MonogramAvatar name={project.name} size="lg" />
         <div className={styles.headText}>
           <h1 className={styles.name}>{project.name}</h1>
-          <p className={styles.meta}>{links || "no links yet"}</p>
+          {project.description ? (
+            <LinkText className={styles.description}>
+              {project.description}
+            </LinkText>
+          ) : null}
+          <div className={styles.linkline}>
+            {project.repoUrl ? (
+              <ExternalLink href={project.repoUrl}>repo</ExternalLink>
+            ) : null}
+            {project.websiteUrl ? (
+              <ExternalLink href={project.websiteUrl}>site</ExternalLink>
+            ) : null}
+            {project.hostMachine ? (
+              <span className={styles.hostChip}>⌂ {project.hostMachine}</span>
+            ) : null}
+            {noLinks ? (
+              <span className={styles.metaEmpty}>no links yet</span>
+            ) : null}
+          </div>
         </div>
         <button
           type="button"
@@ -81,6 +106,27 @@ export function ProjectDetail() {
           project={project}
           onClose={() => setEditingMeta(false)}
         />
+      ) : null}
+
+      {hasDetails ? (
+        <div className={styles.detailsWrap}>
+          <button
+            type="button"
+            className={styles.detailsToggle}
+            aria-expanded={showDetails}
+            onClick={() => setShowDetails((v) => !v)}
+          >
+            <span
+              className={styles.chev}
+              data-open={showDetails}
+              aria-hidden="true"
+            >
+              ▸
+            </span>
+            More details
+          </button>
+          {showDetails ? <ProjectDetailsPanel project={project} /> : null}
+        </div>
       ) : null}
 
       <div className={styles.filters}>

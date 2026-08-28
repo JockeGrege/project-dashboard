@@ -20,7 +20,9 @@ const seedProject = async () =>
   store.createProject({
     name: "dashboard",
     categoryId: null,
+    description: null,
     repoUrl: null,
+    websiteUrl: null,
     hostMachine: null,
   });
 
@@ -123,7 +125,9 @@ describe("InMemoryStore — projects", () => {
     const projectId = await store.createProject({
       name: "core",
       categoryId: null,
+      description: null,
       repoUrl: null,
+      websiteUrl: null,
       hostMachine: null,
       firstIssue: { text: "wire up CI", tag: "enhancement" },
     });
@@ -144,6 +148,35 @@ describe("InMemoryStore — projects", () => {
     const snap = store.getSnapshot();
     expect(snap.projects).toEqual([]);
     expect(snap.issues).toEqual([]);
+  });
+
+  it("starts a project with an empty link list and no notes", async () => {
+    const projectId = await seedProject();
+    const project = store.getSnapshot().projects.find((p) => p.id === projectId)!;
+    expect(project.links).toEqual([]);
+    expect(project.notes).toBeNull();
+    expect(project.websiteUrl).toBeNull();
+  });
+
+  it("updates description, website, notes and a sanitised link list", async () => {
+    const projectId = await seedProject();
+    await store.updateProject(projectId, {
+      description: "  a tracker  ",
+      websiteUrl: "https://board.example.com",
+      notes: "## Deploy\n- run it",
+      links: [
+        { label: " Console ", url: " https://console.example.com " },
+        { label: "", url: "https://dropme.example.com" },
+        { label: "Bad", url: "nope" },
+      ],
+    });
+    const project = store.getSnapshot().projects.find((p) => p.id === projectId)!;
+    expect(project.description).toBe("a tracker");
+    expect(project.websiteUrl).toBe("https://board.example.com");
+    expect(project.notes).toBe("## Deploy\n- run it");
+    expect(project.links).toEqual([
+      { label: "Console", url: "https://console.example.com" },
+    ]);
   });
 
   it("rejects an issue on a missing project", async () => {
@@ -182,7 +215,9 @@ describe("InMemoryStore — categories", () => {
     const projectId = await store.createProject({
       name: "dashboard",
       categoryId,
+      description: null,
       repoUrl: null,
+      websiteUrl: null,
       hostMachine: null,
     });
     await store.deleteCategory(categoryId);

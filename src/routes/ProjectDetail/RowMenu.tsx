@@ -6,10 +6,12 @@ import styles from "./RowMenu.module.css";
 interface RowMenuProps {
   issue: Issue;
   onEditText: () => void;
+  /** The host confirms before the soft delete. */
+  onDelete: () => void;
 }
 
 /** Per-issue actions: edit, retag, and the three resolutions. */
-export function RowMenu({ issue, onEditText }: RowMenuProps) {
+export function RowMenu({ issue, onEditText, onDelete }: RowMenuProps) {
   const store = useStoreApi();
 
   const setStatus = (status: IssueStatus, close: () => void) => {
@@ -63,8 +65,8 @@ export function RowMenu({ issue, onEditText }: RowMenuProps) {
           <MenuItem
             tone="danger"
             onClick={() => {
-              void store.deleteIssue(issue.id);
               close();
+              onDelete();
             }}
           >
             Delete

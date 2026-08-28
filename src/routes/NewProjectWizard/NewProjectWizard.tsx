@@ -13,8 +13,10 @@ const STEPS = ["Name the project", "Which category?", "Where does it live?", "Fi
 
 interface Draft {
   name: string;
+  description: string;
   categoryId: string | null;
   repoUrl: string;
+  websiteUrl: string;
   hostMachine: string;
   firstIssue: string;
   firstTag: Tag | null;
@@ -22,8 +24,10 @@ interface Draft {
 
 const EMPTY: Draft = {
   name: "",
+  description: "",
   categoryId: null,
   repoUrl: "",
+  websiteUrl: "",
   hostMachine: "",
   firstIssue: "",
   firstTag: null,
@@ -51,8 +55,10 @@ export function NewProjectWizard() {
     try {
       const id = await store.createProject({
         name: draft.name.trim(),
+        description: draft.description.trim() || null,
         categoryId: draft.categoryId,
         repoUrl: draft.repoUrl.trim() || null,
+        websiteUrl: draft.websiteUrl.trim() || null,
         hostMachine: draft.hostMachine.trim() || null,
         ...(draft.firstIssue.trim()
           ? { firstIssue: { text: draft.firstIssue.trim(), tag: draft.firstTag } }
@@ -84,18 +90,30 @@ export function NewProjectWizard() {
 
       <div className={styles.body}>
         {step === 0 ? (
-          <label className={styles.field}>
-            <span className={styles.label}>project name</span>
-            <input
-              className={styles.input}
-              value={draft.name}
-              onChange={(e) => patch({ name: e.target.value })}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && canContinue) setStep(1);
-              }}
-              autoFocus
-            />
-          </label>
+          <>
+            <label className={styles.field}>
+              <span className={styles.label}>project name</span>
+              <input
+                className={styles.input}
+                value={draft.name}
+                onChange={(e) => patch({ name: e.target.value })}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && canContinue) setStep(1);
+                }}
+                autoFocus
+              />
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>one-line description — optional</span>
+              <input
+                className={styles.input}
+                value={draft.description}
+                onChange={(e) => patch({ description: e.target.value })}
+                placeholder="what it's for, in a sentence"
+                maxLength={280}
+              />
+            </label>
+          </>
         ) : null}
 
         {step === 1 ? (
@@ -119,6 +137,15 @@ export function NewProjectWizard() {
                 value={draft.repoUrl}
                 onChange={(e) => patch({ repoUrl: e.target.value })}
                 placeholder="https://github.com/…"
+              />
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>website url — optional</span>
+              <input
+                className={styles.input}
+                value={draft.websiteUrl}
+                onChange={(e) => patch({ websiteUrl: e.target.value })}
+                placeholder="https://…"
               />
             </label>
             <label className={styles.field}>

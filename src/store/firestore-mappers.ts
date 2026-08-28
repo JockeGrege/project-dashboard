@@ -14,6 +14,7 @@ import {
   type Project,
   type Settings,
 } from "@/domain";
+import { sanitizeLinks } from "./project-links";
 
 /**
  * Firestore stores snake_case fields and `Timestamp` values (spec's data model).
@@ -38,8 +39,12 @@ export function toProject(
     id: snap.id,
     name: d.name,
     categoryId: d.category_id ?? null,
+    description: d.description ?? null,
     repoUrl: d.repo_url ?? null,
+    websiteUrl: d.website_url ?? null,
     hostMachine: d.host_machine ?? null,
+    links: sanitizeLinks(d.links),
+    notes: typeof d.notes === "string" ? d.notes : null,
     createdAt: msOr(d.created_at, now),
     updatedAt: msOr(d.updated_at, now),
     deletedAt: ms(d.deleted_at),

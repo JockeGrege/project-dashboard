@@ -62,6 +62,8 @@ export function IssueTextArea({
   const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
+      // We've handled the shortcut — don't let a host also act on it.
+      e.stopPropagation();
       onSubmit?.();
     }
   };

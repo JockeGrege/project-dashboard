@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 import type { Project, Tag } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import { monogram } from "@/selectors";
@@ -42,6 +42,19 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
   const pickedProject = pickable(projects, picked);
   const canSubmit = text.trim().length > 0 && pickedProject !== null && !busy;
 
+  /**
+   * File on Cmd/Ctrl+Enter from anywhere in the panel. Once a project is picked,
+   * focus sits on a chip button rather than the textarea, so the textarea's own
+   * shortcut can't fire — this catches the key as it bubbles and stops a focused
+   * button from being toggled by the same press.
+   */
+  function onPanelKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault();
+      void submit();
+    }
+  }
+
   async function submit() {
     if (!canSubmit || !pickedProject) return;
     setBusy(true);
@@ -62,6 +75,7 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
 
   return (
     <Modal onClose={onClose} label="File an idea" className={styles.panel}>
+      <div className={styles.keys} onKeyDown={onPanelKeyDown}>
       <p className={styles.title}>File an idea</p>
 
       <IssueTextArea
@@ -143,6 +157,7 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
         >
           {busy ? "Filing…" : "File ⌘⏎"}
         </button>
+      </div>
       </div>
     </Modal>
   );

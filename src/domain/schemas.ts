@@ -30,18 +30,34 @@ export type ViewMode = z.infer<typeof viewModeSchema>;
 const epochMillis = z.number().int().nonnegative();
 const nonEmpty = z.string().trim().min(1);
 
+/**
+ * One free-form link on a project — a Firebase console, a deploy dashboard, a
+ * maintenance doc. The two first-class URLs below (`repoUrl`, `websiteUrl`) stay
+ * scalar because they're asked for by name everywhere; anything else the owner
+ * wants to keep close goes here.
+ */
+export const projectLinkSchema = z.object({
+  label: nonEmpty.max(80),
+  url: z.string().trim().url(),
+});
+export type ProjectLink = z.infer<typeof projectLinkSchema>;
+
 export const projectSchema = z.object({
   id: nonEmpty,
   name: nonEmpty,
   categoryId: z.string().min(1).nullable(),
-  /**
-   * The spec's data model lists `links[]`; every concrete mention is exactly two
-   * things — where the code is hosted, and which machine it was made on — so they
-   * are modelled as two scalar fields. Broaden to a link list only if a real need
-   * for arbitrary links turns up.
-   */
+  /** A one-line summary shown under the project name. */
+  description: z.string().trim().max(280).nullable(),
+  /** Where the code is hosted. */
   repoUrl: z.string().trim().url().nullable(),
+  /** The live / deployed site, if there is one. */
+  websiteUrl: z.string().trim().url().nullable(),
+  /** Which machine the project was made on. */
   hostMachine: z.string().trim().min(1).nullable(),
+  /** Arbitrary extra links — Firebase console, deploy board, runbooks. */
+  links: z.array(projectLinkSchema).max(40),
+  /** Long-form Markdown: a maintenance guide, setup notes, gotchas. */
+  notes: z.string().max(20_000).nullable(),
   createdAt: epochMillis,
   updatedAt: epochMillis,
   deletedAt: epochMillis.nullable(),

@@ -276,9 +276,11 @@ per the stamp rules above.
               └─────────────────────────────────────────┘
 ```
 
-Steps: **1** name · **2** category · **3** links (repo URL, host machine — optional) ·
-**4** first issue (optional). Numbering is used here and nowhere else in the product,
-because this is the one place where order is real information.
+Steps: **1** name + one-line description · **2** category · **3** links (repo URL,
+website URL, host machine — all optional) · **4** first issue (optional). Numbering
+is used here and nowhere else in the product, because this is the one place where
+order is real information. Free-form links and Markdown maintenance notes are added
+later from the project screen's **More details** panel / **edit meta**.
 
 ---
 

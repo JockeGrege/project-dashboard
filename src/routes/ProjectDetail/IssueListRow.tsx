@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Issue } from "@/domain";
 import { useStoreApi } from "@/store";
 import { relativeTime } from "@/selectors";
-import { IssueRow, IssueTextArea } from "@/ui";
+import { ConfirmDialog, IssueRow, IssueTextArea } from "@/ui";
 import { RowMenu } from "./RowMenu";
 import styles from "./IssueListRow.module.css";
 
@@ -14,6 +14,7 @@ interface IssueListRowProps {
 export function IssueListRow({ issue, now }: IssueListRowProps) {
   const store = useStoreApi();
   const [editing, setEditing] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [draft, setDraft] = useState(issue.text);
 
   useEffect(() => {
@@ -64,12 +65,33 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
   }
 
   return (
-    <IssueRow
-      text={issue.text}
-      status={issue.status}
-      tag={issue.tag}
-      timeLabel={relativeTime(issue.createdAt, now)}
-      actions={<RowMenu issue={issue} onEditText={() => setEditing(true)} />}
-    />
+    <>
+      <IssueRow
+        text={issue.text}
+        status={issue.status}
+        tag={issue.tag}
+        timeLabel={relativeTime(issue.createdAt, now)}
+        actions={
+          <RowMenu
+            issue={issue}
+            onEditText={() => setEditing(true)}
+            onDelete={() => setConfirmingDelete(true)}
+          />
+        }
+      />
+      {confirmingDelete ? (
+        <ConfirmDialog
+          title="Delete this issue?"
+          body="It moves to Deleted issues. Purge in Settings removes it for good."
+          confirmLabel="Delete"
+          tone="danger"
+          onConfirm={() => {
+            void store.deleteIssue(issue.id);
+            setConfirmingDelete(false);
+          }}
+          onCancel={() => setConfirmingDelete(false)}
+        />
+      ) : null}
+    </>
   );
 }
