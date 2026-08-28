@@ -9,3 +9,4 @@ export {
   type IssueFilter,
 } from "./filter-project-issues";
 export { search } from "./search";
+export { linkify, hasLink, type LinkSegment } from "./linkify";

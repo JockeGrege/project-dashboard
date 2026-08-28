@@ -73,14 +73,23 @@ function mkProject(
   name: string,
   categoryId: string | null,
   createdAt: number,
-  extra: Partial<Pick<Project, "repoUrl" | "hostMachine">> = {},
+  extra: Partial<
+    Pick<
+      Project,
+      "description" | "repoUrl" | "websiteUrl" | "hostMachine" | "links" | "notes"
+    >
+  > = {},
 ): Project {
   return {
     id,
     name,
     categoryId,
+    description: extra.description ?? null,
     repoUrl: extra.repoUrl ?? null,
+    websiteUrl: extra.websiteUrl ?? null,
     hostMachine: extra.hostMachine ?? null,
+    links: extra.links ?? [],
+    notes: extra.notes ?? null,
     createdAt,
     updatedAt: createdAt,
     deletedAt: null,

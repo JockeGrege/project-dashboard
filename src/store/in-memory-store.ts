@@ -15,6 +15,7 @@ import {
   type Tag,
 } from "@/domain";
 import type { Store, StoreSnapshot } from "./store";
+import { normaliseText, sanitizeLinks } from "./project-links";
 
 export interface InMemorySeed {
   projects?: Project[];
@@ -232,8 +233,12 @@ export class InMemoryStore implements Store {
       id: this.nextId(),
       name: trimmedOrThrow(input.name, "Project name"),
       categoryId: input.categoryId,
+      description: normaliseText(input.description, 280),
       repoUrl: input.repoUrl?.trim() ? input.repoUrl.trim() : null,
+      websiteUrl: input.websiteUrl?.trim() ? input.websiteUrl.trim() : null,
       hostMachine: input.hostMachine?.trim() ? input.hostMachine.trim() : null,
+      links: [],
+      notes: null,
       createdAt: ts,
       updatedAt: ts,
       deletedAt: null,
@@ -268,13 +273,27 @@ export class InMemoryStore implements Store {
       if (patch.categoryId !== null) this.categoryOrThrow(patch.categoryId);
       project.categoryId = patch.categoryId;
     }
+    if (patch.description !== undefined) {
+      project.description = normaliseText(patch.description, 280);
+    }
     if (patch.repoUrl !== undefined) {
       project.repoUrl = patch.repoUrl?.trim() ? patch.repoUrl.trim() : null;
+    }
+    if (patch.websiteUrl !== undefined) {
+      project.websiteUrl = patch.websiteUrl?.trim()
+        ? patch.websiteUrl.trim()
+        : null;
     }
     if (patch.hostMachine !== undefined) {
       project.hostMachine = patch.hostMachine?.trim()
         ? patch.hostMachine.trim()
         : null;
+    }
+    if (patch.links !== undefined) {
+      project.links = sanitizeLinks(patch.links);
+    }
+    if (patch.notes !== undefined) {
+      project.notes = normaliseText(patch.notes, 20_000);
     }
     project.updatedAt = this.clock();
     this.commit();

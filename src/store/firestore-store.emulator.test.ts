@@ -34,7 +34,9 @@ async function seedProject(name = "dashboard"): Promise<string> {
   const id = await store.createProject({
     name,
     categoryId: null,
+    description: null,
     repoUrl: null,
+    websiteUrl: null,
     hostMachine: null,
   });
   await waitFor(() => snap().projects.some((p) => p.id === id));
@@ -58,7 +60,9 @@ describe("FirestoreStore (emulator)", () => {
     const id = await store.createProject({
       name: "sync",
       categoryId: null,
+      description: null,
       repoUrl: null,
+      websiteUrl: null,
       hostMachine: null,
       firstIssue: { text: "wire up CI", tag: "enhancement" },
     });
@@ -111,7 +115,9 @@ describe("FirestoreStore (emulator)", () => {
     const projectId = await store.createProject({
       name: "dashboard",
       categoryId,
+      description: null,
       repoUrl: null,
+      websiteUrl: null,
       hostMachine: null,
     });
     await waitFor(() => snap().projects.some((p) => p.id === projectId));

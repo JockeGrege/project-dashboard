@@ -36,6 +36,7 @@ import {
   toProject,
   toSettings,
 } from "./firestore-mappers";
+import { normaliseText, sanitizeLinks } from "./project-links";
 
 const COL = {
   projects: "projects",
@@ -256,8 +257,12 @@ export class FirestoreStore implements Store {
     batch.set(projectRef, {
       name: input.name.trim(),
       category_id: input.categoryId,
+      description: normaliseText(input.description, 280),
       repo_url: input.repoUrl?.trim() ? input.repoUrl.trim() : null,
+      website_url: input.websiteUrl?.trim() ? input.websiteUrl.trim() : null,
       host_machine: input.hostMachine?.trim() ? input.hostMachine.trim() : null,
+      links: [],
+      notes: null,
       created_at: nowTs,
       updated_at: nowTs,
       deleted_at: null,
@@ -284,11 +289,23 @@ export class FirestoreStore implements Store {
     const out: UpdateData<DocumentData> = { updated_at: Timestamp.now() };
     if (patch.name !== undefined) out.name = patch.name.trim();
     if (patch.categoryId !== undefined) out.category_id = patch.categoryId;
+    if (patch.description !== undefined) {
+      out.description = normaliseText(patch.description, 280);
+    }
     if (patch.repoUrl !== undefined) {
       out.repo_url = patch.repoUrl?.trim() ? patch.repoUrl.trim() : null;
     }
+    if (patch.websiteUrl !== undefined) {
+      out.website_url = patch.websiteUrl?.trim() ? patch.websiteUrl.trim() : null;
+    }
     if (patch.hostMachine !== undefined) {
       out.host_machine = patch.hostMachine?.trim() ? patch.hostMachine.trim() : null;
+    }
+    if (patch.links !== undefined) {
+      out.links = sanitizeLinks(patch.links);
+    }
+    if (patch.notes !== undefined) {
+      out.notes = normaliseText(patch.notes, 20_000);
     }
     await updateDoc(doc(this.db, COL.projects, id), out);
   };

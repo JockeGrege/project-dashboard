@@ -385,7 +385,24 @@ only by the deployed site.
   Cmd/Ctrl+Enter or the button. Used by QuickAdd, `IssueComposer`, and the
   `IssueListRow` edit mode. `IssueRow` renders `white-space: pre-wrap`, clamped
   to 3 lines in the feed/search.
+- **Delete-issue confirm** — `RowMenu`'s Delete now calls up to `IssueListRow`,
+  which shows the shared `ConfirmDialog` before the soft delete (matches the
+  purge safety click).
+- **⌘⏎ from anywhere in QuickAdd** — the shortcut was only bound to the
+  `textarea`, so once a project was picked (focus on a chip) the key toggled the
+  chip instead of filing. QuickAdd now catches ⌘⏎ on a `display: contents`
+  wrapper and `IssueTextArea` stops propagation once it has handled the key, so
+  it fires exactly once wherever focus sits.
+- **Project detail** — the `Project` schema gained `description`, `websiteUrl`,
+  `links: {label,url}[]`, and Markdown `notes`, threaded through both Store
+  adapters and `firestore-mappers` (`store/project-links.ts` holds the shared
+  `normaliseText` / `sanitizeLinks` hygiene). The screen shows the description
+  and clickable `ui/ExternalLink`s for repo/site under the name; a **More
+  details** disclosure expands `ProjectDetailsPanel` with the full link list and
+  `ui/Markdown` notes (`marked` + `dompurify`, pulled in a lazy chunk). `linkify`
+  selector + `ui/LinkText` turn bare URLs in plain text into links. The new
+  wizard and `ProjectMetaEditor` edit all of it (repeatable link rows).
 
-Covered by **85 unit tests** + **11 emulator tests** (8 `FirestoreStore` integration,
-3 rules) + **3 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+Covered by **100 unit tests** + **11 emulator tests** (8 `FirestoreStore` integration,
+3 rules) + **5 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
 included), and `vite build` are clean.

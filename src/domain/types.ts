@@ -3,6 +3,7 @@ import type {
   Issue,
   IssueStatus,
   Project,
+  ProjectLink,
   Settings,
   Tag,
 } from "./schemas";
@@ -22,7 +23,9 @@ export interface NewIssueInput {
 export interface NewProjectInput {
   name: string;
   categoryId: string | null;
+  description: string | null;
   repoUrl: string | null;
+  websiteUrl: string | null;
   hostMachine: string | null;
   /** Optional first issue from the wizard's last step. */
   firstIssue?: { text: string; tag: Tag | null };
@@ -31,8 +34,12 @@ export interface NewProjectInput {
 export interface ProjectPatch {
   name?: string;
   categoryId?: string | null;
+  description?: string | null;
   repoUrl?: string | null;
+  websiteUrl?: string | null;
   hostMachine?: string | null;
+  links?: ProjectLink[];
+  notes?: string | null;
 }
 
 export interface NewCategoryInput {
@@ -66,7 +73,7 @@ export interface SearchResult {
   issues: FeedRow[];
 }
 
-export type { Category, Issue, IssueStatus, Project, Settings, Tag };
+export type { Category, Issue, IssueStatus, Project, ProjectLink, Settings, Tag };
 export type {
   ProjectSort,
   ViewMode,
