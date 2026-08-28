@@ -49,11 +49,9 @@ test("⌘⏎ files the idea even when focus has left the textarea", async ({
   await page.getByPlaceholder("project").fill("core");
   await page.getByRole("button", { name: "CO core" }).click();
 
-  // Focus now sits on the picked-project chip, not the textarea — the reported
-  // repro, where ⌘⏎ used to just toggle the chip.
-  const chip = page.getByRole("button", { name: "CO core" });
-  await chip.focus();
-  await chip.press("ControlOrMeta+Enter");
+  // Picking a project unmounts the button that had focus, so focus falls to
+  // <body> — outside the panel. ⌘⏎ must still file, without a tag selected.
+  await page.locator("body").press("ControlOrMeta+Enter");
 
   await expect(page.getByText("Filed to core")).toBeVisible();
   await expect(page.getByText(idea)).toBeVisible();
