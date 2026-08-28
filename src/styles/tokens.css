@@ -1,24 +1,27 @@
 /* Design tokens — the single source of truth for colour, type and spacing.
    See DESIGN.md §4. This is a dark-only product (an instrument panel); there is
-   no light theme, so tokens are defined once on :root. */
+   no light theme, so tokens are defined once on :root.
+
+   Palette is the Hypomone identity: warm charcoal, antique gold, warm ivory. */
 
 :root {
   /* ---- surfaces ---- */
-  --vault-900: #14171c; /* app background */
-  --vault-800: #1b1f26; /* panel / bay background */
-  --vault-700: #232833; /* card background */
-  --vault-600: #2e3440; /* hover / raised */
-  --rule: #3a414f; /* hairlines, borders, the stamp gutter rule */
+  --vault-900: #151617; /* charcoal — app background */
+  --vault-800: #1c1d1e; /* panel / bay background */
+  --vault-700: #242526; /* graphite — card background */
+  --vault-600: #2e2f30; /* hover / raised */
+  --rule: #36373a; /* hairlines, borders, the stamp gutter rule */
 
   /* ---- ink ---- */
-  --ink-100: #e8ebf0; /* primary text */
-  --ink-300: #a6afbe; /* secondary text, metadata */
-  --ink-500: #6b7482; /* muted — dismissed issues, timestamps, disabled */
+  --ink-100: #f2eee6; /* warm ivory — primary text */
+  --ink-300: #c9c3b5; /* secondary text, metadata */
+  --ink-500: #8a8579; /* muted — dismissed issues, timestamps, disabled */
+  --sand: #d8c5a5; /* secondary neutral — supporting graphics, rare fills */
 
   /* ---- the one control colour ---- */
-  --brass: #e0c878; /* capture affordance + focus rings ONLY */
-  --brass-dim: #8a7b4a; /* brass, pressed */
-  --brass-glow: rgba(224, 200, 120, 0.25); /* focus ring halo */
+  --brass: #c59a55; /* antique gold — capture affordance + focus rings ONLY */
+  --brass-dim: #7c6537; /* gold, pressed */
+  --brass-glow: rgba(197, 154, 85, 0.25); /* focus ring halo */
 
   /* ---- tag colours (fixed, GitHub-derived; always a filled pill) ---- */
   --tag-bug-fg: #f1707b;
@@ -37,10 +40,17 @@
   --stamp-dismissed: var(--ink-500);
 
   /* ---- type ---- */
+  /* Wordmark & brand headings: a classical Roman-inscription serif, used with
+     restraint. In-app screen headings stay on the display sans below — they
+     carry user-typed project names, which Cinzel's monumental caps would fight. */
+  --font-wordmark: "Cinzel Variable", "Cinzel", "Trajan Pro", "Times New Roman",
+    serif;
   --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque",
     ui-sans-serif, system-ui, sans-serif;
   --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* The slogan only. */
+  --font-slogan: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   --text-display-xl: 34px;
   --text-display-l: 24px;
@@ -58,6 +68,8 @@
   --track-tab: 0.14em;
   --track-mono: 0.02em;
   --track-display: -0.01em;
+  --track-wordmark: 0.18em; /* HYPOMONE, monumental and calm */
+  --track-slogan: 0.24em; /* IMPROVE, NEVER STOP. */
 
   /* ---- spacing scale (4px base) ---- */
   --sp-1: 4px;

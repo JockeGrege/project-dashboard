@@ -1,6 +1,6 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="14" fill="#14171C"/>
-  <rect x="16" y="16" width="32" height="32" rx="3" fill="#E0C878"/>
-  <rect x="32" y="16" width="16" height="32" fill="#14171C"/>
-  <rect x="16" y="16" width="32" height="32" rx="3" fill="none" stroke="#E0C878" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hypomone">
+  <rect width="512" height="512" rx="112" fill="#151617"/>
+  <g transform="translate(30.8 -43.8) scale(0.86)" fill="#C59A55">
+    <path d="M84 268 Q126 244 168 244 L424 244 L424 296 L388 296 Q384 328 360 360 L360 380 Q378 408 424 412 L440 452 L128 452 L144 412 Q194 408 216 380 L216 360 Q192 328 188 296 L168 296 Q126 296 84 268 Z"/>
+  </g>
 </svg>

@@ -389,10 +389,18 @@ only by the deployed site.
   which shows the shared `ConfirmDialog` before the soft delete (matches the
   purge safety click).
 - **⌘⏎ from anywhere in QuickAdd** — the shortcut was only bound to the
-  `textarea`, so once a project was picked (focus on a chip) the key toggled the
-  chip instead of filing. QuickAdd now catches ⌘⏎ on a `display: contents`
-  wrapper and `IssueTextArea` stops propagation once it has handled the key, so
-  it fires exactly once wherever focus sits.
+  `textarea`, so once a project was picked the result button unmounted and focus
+  fell to `<body>`, outside the panel. QuickAdd now listens for ⌘⏎ on `document`
+  (capture phase, like `Modal`'s Escape) with a `filingRef` guard so it fires
+  exactly once wherever focus sits.
+- **Hypomone brand** — the app took on the Hypomone identity: `ui/AnvilMark`
+  (solid vector — anvil, three sparks, a raised hammer on a rotated `<g>`;
+  `currentColor`) in the header and auth splash, `--font-wordmark` (Cinzel) for
+  the wordmark only, retuned charcoal/gold/ivory token *values* (roles
+  unchanged) in `styles/tokens.css`. `public/symbol.svg` is the logo master;
+  `favicon.svg` uses the anvil alone (the full mark muddies below ~24px);
+  `scripts/gen-icons.mjs` rasterises the PWA/Apple PNGs via Playwright's
+  Chromium.
 - **Project detail** — the `Project` schema gained `description`, `websiteUrl`,
   `links: {label,url}[]`, and Markdown `notes`, threaded through both Store
   adapters and `firestore-mappers` (`store/project-links.ts` holds the shared
