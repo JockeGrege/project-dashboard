@@ -114,6 +114,31 @@
   background: var(--vault-700);
 }
 
+@media (max-width: 620px) {
+  .filterRow {
+    flex-wrap: nowrap;
+  }
+
+  /* one scrollable strip per filter row instead of wrapping to 3 lines */
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: none;
+    font-size: var(--text-small);
+    padding: 5px 10px;
+  }
+}
+
 .rows {
   display: flex;
   flex-direction: column;

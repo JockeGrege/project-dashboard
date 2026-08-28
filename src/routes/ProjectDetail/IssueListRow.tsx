@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Issue } from "@/domain";
 import { useStoreApi } from "@/store";
 import { relativeTime } from "@/selectors";
-import { IssueRow } from "@/ui";
+import { IssueRow, IssueTextArea } from "@/ui";
 import { RowMenu } from "./RowMenu";
 import styles from "./IssueListRow.module.css";
 
@@ -15,14 +15,9 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
   const store = useStoreApi();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(issue.text);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (editing) {
-      setDraft(issue.text);
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    }
+    if (editing) setDraft(issue.text);
   }, [editing, issue.text]);
 
   async function save() {
@@ -37,26 +32,33 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
   if (editing) {
     return (
       <div className={styles.editRow}>
-        <input
-          ref={inputRef}
-          className={styles.input}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+        <div
           onKeyDown={(e) => {
-            if (e.key === "Enter") save();
             if (e.key === "Escape") setEditing(false);
           }}
-        />
-        <button type="button" className={styles.save} onClick={save}>
-          Save
-        </button>
-        <button
-          type="button"
-          className={styles.cancel}
-          onClick={() => setEditing(false)}
         >
-          Cancel
-        </button>
+          <IssueTextArea
+            value={draft}
+            onChange={setDraft}
+            onSubmit={save}
+            autoFocus
+            minRows={2}
+            label="Edit issue text"
+          />
+        </div>
+        <div className={styles.editActions}>
+          <span className={styles.hint}>⌘⏎ to save · Esc to cancel</span>
+          <button type="button" className={styles.save} onClick={save}>
+            Save
+          </button>
+          <button
+            type="button"
+            className={styles.cancel}
+            onClick={() => setEditing(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     );
   }

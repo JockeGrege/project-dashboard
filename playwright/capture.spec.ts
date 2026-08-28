@@ -21,6 +21,23 @@ test("file an idea with the keyboard and see it in the feed", async ({ page }) =
   await expect(page.getByText(idea)).toBeVisible();
 });
 
+test("issue text is multi-line and expands to full screen", async ({ page }) => {
+  await page.goto("/#/");
+  await page.locator("body").press("a");
+
+  const field = page.getByLabel("Issue text");
+  await field.fill("line one\nline two");
+  await expect(field).toHaveValue("line one\nline two");
+
+  await page.getByRole("button", { name: "Expand editor to full screen" }).click();
+  const full = page.getByRole("dialog", { name: "Issue text" });
+  await expect(full).toBeVisible();
+  await full.getByRole("textbox").fill("line one\nline two\nline three");
+  await page.getByRole("button", { name: "Done" }).click();
+
+  await expect(field).toHaveValue("line one\nline two\nline three");
+});
+
 test("command search jumps to a project", async ({ page }) => {
   await page.goto("/#/");
   await page.locator("body").press("ControlOrMeta+k");

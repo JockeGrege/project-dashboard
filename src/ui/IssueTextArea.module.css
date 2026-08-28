@@ -1,0 +1,135 @@
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+.area {
+  width: 100%;
+  display: block;
+  resize: none;
+  color: var(--ink-100);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  padding: var(--sp-2) 0;
+  line-height: var(--leading-relaxed);
+  font-family: var(--font-body);
+}
+
+.area[data-variant="display"] {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-display-l);
+  letter-spacing: var(--track-display);
+  line-height: var(--leading-snug);
+}
+
+@media (max-width: 620px) {
+  .area[data-variant="display"] {
+    font-size: 20px;
+  }
+}
+
+.area[data-variant="body"] {
+  font-size: var(--text-body);
+}
+
+.area::placeholder {
+  color: var(--ink-500);
+}
+
+.area:focus {
+  outline: none;
+  border-bottom-color: var(--brass);
+}
+
+.expand {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--ink-500);
+  background: var(--vault-800);
+  border-radius: var(--radius-sm);
+  opacity: 0.7;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.expand:hover {
+  opacity: 1;
+  color: var(--ink-100);
+}
+
+/* full-screen editor */
+.fs {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  background: var(--vault-900);
+  animation: fs-in var(--dur-mid) var(--ease-out);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.fsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.fsTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-tab);
+  letter-spacing: var(--track-tab);
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+.fsDone {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--vault-900);
+  background: var(--brass);
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.fsArea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-100);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  padding: var(--sp-5);
+}
+
+.fsArea:focus {
+  outline: none;
+}
+
+@keyframes fs-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs {
+    animation: none;
+  }
+}
