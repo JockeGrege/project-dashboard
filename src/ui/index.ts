@@ -3,6 +3,7 @@ export { TagChip } from "./TagChip";
 export { TagPicker } from "./TagPicker";
 export { MonogramAvatar } from "./MonogramAvatar";
 export { ProjectCard } from "./ProjectCard";
+export { NewProjectTile } from "./NewProjectTile";
 export { IssueRow } from "./IssueRow";
 export { Button } from "./Button";
 export { Pager } from "./Pager";

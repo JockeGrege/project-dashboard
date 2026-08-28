@@ -373,8 +373,10 @@ only by the deployed site.
   exposes `useInstallPrompt()` for the header "install" button.
 - **Mobile** — a fixed floating "Add" button (a dedicated element at the shell
   root, because the header's `backdrop-filter` traps `position: fixed`
-  descendants); "New project" moved to a button in the dashboard Projects header
-  (it was hidden on mobile with no replacement); feed/detail readability pass
+  descendants); "New project" is a ghost `ui/NewProjectTile` in the project grid
+  (first cell in flat view, a compact dashed row above the bays in category view,
+  and in the empty state) — it was hidden on mobile with no replacement;
+  feed/detail readability pass
   (larger text, higher-contrast metadata, row menu pinned instead of wrapping,
   horizontally-scrolling filter chips).
 - **Multi-line issue text** — new `ui/IssueTextArea` primitive: autogrowing

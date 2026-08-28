@@ -1,5 +1,4 @@
 import { useMemo, useState, type CSSProperties } from "react";
-import { Link } from "react-router-dom";
 import type { ProjectSort, ViewMode } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import {
@@ -12,6 +11,7 @@ import {
 import {
   Eyebrow,
   IssueRow,
+  NewProjectTile,
   Pager,
   ProjectCard,
   SegmentedToggle,
@@ -87,19 +87,22 @@ export function Dashboard() {
               label="Project view"
             />
             <SortMenu value={settings.sortOrder} onChange={setSort} />
-            <Link to="/new" className={styles.newProject}>
-              <span aria-hidden="true">+</span> new
-            </Link>
           </div>
         </header>
 
         {projects.length === 0 ? (
-          <p className={styles.empty}>
-            No projects yet. Create one to start filing ideas.
-          </p>
+          <div className={styles.emptyProjects}>
+            <p className={styles.empty}>
+              No projects yet. Create one to start filing ideas.
+            </p>
+            <div className={styles.grid}>
+              <NewProjectTile />
+            </div>
+          </div>
         ) : flat ? (
           <>
             <div className={styles.grid}>
+              <NewProjectTile />
               {slice.map((p, i) => (
                 <ProjectCard
                   key={p.id}
@@ -129,6 +132,9 @@ export function Dashboard() {
           </>
         ) : (
           <div className={styles.bays}>
+            <div className={styles.newTileRow}>
+              <NewProjectTile />
+            </div>
             {groups.map((group) => (
               <section
                 key={group.key}

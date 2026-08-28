@@ -1,0 +1,34 @@
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 150px;
+  padding: var(--sp-4) var(--sp-3);
+  background: transparent;
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius-md);
+  color: var(--ink-500);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.tile:hover {
+  color: var(--ink-100);
+  border-color: var(--ink-500);
+  background: var(--vault-800);
+}
+
+.plus {
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.label {
+  font-weight: 600;
+  font-size: var(--text-small);
+}

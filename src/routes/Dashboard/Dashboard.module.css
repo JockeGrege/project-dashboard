@@ -37,27 +37,25 @@
   gap: var(--sp-4);
 }
 
-.newProject {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: var(--text-tab);
-  letter-spacing: var(--track-tab);
-  text-transform: uppercase;
-  color: var(--ink-300);
-  padding: 6px 12px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
-  transition:
-    color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out);
+.emptyProjects {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
 }
 
-.newProject:hover {
-  color: var(--ink-100);
-  border-color: var(--ink-500);
+/* category view: a compact New-project tile above the bays (not in a card row,
+   so it doesn't need to match card height) */
+.newTileRow > a {
+  min-height: 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--sp-2);
+  width: fit-content;
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.newTileRow > a > span:first-child {
+  font-size: 18px;
 }
 
 .grid {
@@ -160,10 +158,6 @@
     width: 100%;
     flex-wrap: wrap;
     gap: var(--sp-2);
-  }
-
-  .newProject {
-    margin-left: auto;
   }
 
   /* leave room for the floating Add button */
