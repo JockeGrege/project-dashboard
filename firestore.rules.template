@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// TEMPLATE — do not deploy this file directly.
+//
+// `scripts/gen-firestore-rules.mjs` reads VITE_ALLOWED_UID (from the environment
+// or .env) and writes the real `firestore.rules`, which is git-ignored so the
+// account identifier never lands in the public repo. Run `npm run gen:rules`
+// (or `npm run deploy:rules`).
+//
+// Single-user database: GitHub Pages ships the Firebase config in the bundle, so
+// these rules are the only thing protecting the data — every read and write is
+// pinned to one account. If __ALLOWED_UID__ is left unsubstituted the rules deny
+// everyone, which is the safe default.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner() {
+      return request.auth != null
+        && request.auth.uid == "__ALLOWED_UID__";
+    }
+
+    match /{document=**} {
+      allow read, write: if isOwner();
+    }
+  }
+}
