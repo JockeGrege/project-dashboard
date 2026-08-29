@@ -16,6 +16,7 @@ export { Popover } from "./Popover";
 export { MenuItem, MenuSeparator, MenuLabel } from "./MenuItem";
 export { ConfirmDialog } from "./ConfirmDialog";
 export { Modal } from "./Modal";
+export { Lightbox } from "./Lightbox";
 export { IssueTextArea } from "./IssueTextArea";
 export { ExternalLink } from "./ExternalLink";
 export { LinkText } from "./LinkText";

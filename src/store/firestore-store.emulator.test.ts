@@ -71,6 +71,33 @@ describe("FirestoreStore (emulator)", () => {
     expect(issue).toMatchObject({ text: "wire up CI", tag: "enhancement", status: "open" });
   });
 
+  it("round-trips an issue's attachments, sanitised", async () => {
+    const projectId = await seedProject();
+    const issueId = await store.createIssue({
+      projectId,
+      text: "with a screenshot",
+      tag: null,
+      attachments: [
+        "https://i.ibb.co/a.png",
+        "https://i.ibb.co/a.png",
+        "junk",
+        "https://i.ibb.co/b.png",
+      ],
+    });
+    await waitFor(() => snap().issues.some((i) => i.id === issueId));
+    expect(snap().issues.find((i) => i.id === issueId)?.attachments).toEqual([
+      "https://i.ibb.co/a.png",
+      "https://i.ibb.co/b.png",
+    ]);
+  });
+
+  it("defaults attachments to [] for an issue filed without any", async () => {
+    const projectId = await seedProject();
+    const issueId = await store.createIssue({ projectId, text: "plain", tag: null });
+    await waitFor(() => snap().issues.some((i) => i.id === issueId));
+    expect(snap().issues.find((i) => i.id === issueId)?.attachments).toEqual([]);
+  });
+
   it("stamps and clears resolvedAt through setIssueStatus only", async () => {
     const projectId = await seedProject();
     const issueId = await store.createIssue({ projectId, text: "x", tag: null });

@@ -30,7 +30,10 @@ export const PROJECTS: Project[] = [
 
 export const ISSUES: Issue[] = [
   mkIssue("iss_01", "prj_core", "swap the auth guard for a hook", "enhancement", "open", hoursAgo(2)),
-  mkIssue("iss_02", "prj_dashboard", "favicon 404s on deep links", "bug", "open", daysAgo(1)),
+  mkIssue("iss_02", "prj_dashboard", "favicon 404s on deep links", "bug", "open", daysAgo(1), null, [
+    "https://picsum.photos/seed/hypomone-a/640/420",
+    "https://picsum.photos/seed/hypomone-b/640/420",
+  ]),
   mkIssue("iss_03", "prj_mixer", "document the seed script", "documentation", "open", daysAgo(3)),
   mkIssue("iss_04", "prj_dashboard", "do we even need the pager?", "question", "open", daysAgo(4)),
   mkIssue("iss_05", "prj_core", "set up the emulator suite", "enhancement", "done", daysAgo(7), daysAgo(5)),
@@ -104,6 +107,7 @@ function mkIssue(
   status: Issue["status"],
   createdAt: number,
   resolvedAt: number | null = null,
+  attachments: string[] = [],
 ): Issue {
   return {
     id,
@@ -111,6 +115,7 @@ function mkIssue(
     text,
     tag,
     status,
+    attachments,
     createdAt,
     updatedAt: resolvedAt ?? createdAt,
     resolvedAt: status === "open" ? null : resolvedAt,

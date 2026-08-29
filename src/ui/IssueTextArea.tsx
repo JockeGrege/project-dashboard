@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type ClipboardEvent,
   type KeyboardEvent,
 } from "react";
 import styles from "./IssueTextArea.module.css";
@@ -23,6 +24,12 @@ interface IssueTextAreaProps {
   label: string;
   /** Show the expand-to-full-screen control. Default true. */
   expandable?: boolean;
+  /**
+   * Called with any image files found on paste (a screenshot, a copied image).
+   * When it fires, the default paste is suppressed; plain-text paste is
+   * untouched. Not wired into the full-screen editor.
+   */
+  onImagePaste?: (files: File[]) => void;
 }
 
 /**
@@ -40,6 +47,7 @@ export function IssueTextArea({
   variant = "body",
   label,
   expandable = true,
+  onImagePaste,
 }: IssueTextAreaProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
@@ -68,6 +76,17 @@ export function IssueTextArea({
     }
   };
 
+  const onPaste = (e: ClipboardEvent<HTMLTextAreaElement>) => {
+    if (!onImagePaste) return;
+    const files = [...e.clipboardData.items]
+      .filter((it) => it.kind === "file" && it.type.startsWith("image/"))
+      .map((it) => it.getAsFile())
+      .filter((f): f is File => f !== null);
+    if (files.length === 0) return; // let plain-text paste through untouched
+    e.preventDefault();
+    onImagePaste(files);
+  };
+
   return (
     <div className={styles.wrap}>
       <textarea
@@ -81,6 +100,7 @@ export function IssueTextArea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
+        onPaste={onPaste}
       />
       {expandable ? (
         <button

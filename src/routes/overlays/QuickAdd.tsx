@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project, Tag } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
+import { AttachmentStrip, useIssueAttachments } from "@/uploads";
 import { monogram } from "@/selectors";
 import { IssueTextArea, Modal, TagPicker } from "@/ui";
 import styles from "./QuickAdd.module.css";
@@ -19,6 +20,7 @@ interface QuickAddProps {
 export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
   const { projects } = useStore();
   const store = useStoreApi();
+  const att = useIssueAttachments();
 
   const [text, setText] = useState("");
   const [picked, setPicked] = useState<string | null>(projectId ?? null);
@@ -40,7 +42,12 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
   }, [sorted, query]);
 
   const pickedProject = pickable(projects, picked);
-  const canSubmit = text.trim().length > 0 && pickedProject !== null && !busy;
+  const canSubmit =
+    text.trim().length > 0 &&
+    pickedProject !== null &&
+    !busy &&
+    !att.isUploading &&
+    !att.hasError;
 
   const filingRef = useRef(false);
 
@@ -54,7 +61,9 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
         projectId: pickedProject.id,
         text: text.trim(),
         tag,
+        attachments: att.urls,
       });
+      att.reset();
       onFiled?.(pickedProject.name);
       onClose();
     } catch (err) {
@@ -93,11 +102,17 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
         value={text}
         onChange={setText}
         onSubmit={submit}
+        onImagePaste={att.addFiles}
         placeholder="What's the improvement?"
         autoFocus
         variant="display"
         minRows={5}
         label="Issue text"
+      />
+      <AttachmentStrip
+        items={att.items}
+        onRetry={att.retry}
+        onRemove={att.remove}
       />
 
       <div className={styles.projectField}>
@@ -166,7 +181,11 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
           disabled={!canSubmit}
           onClick={submit}
         >
-          {busy ? "Filing…" : "File ⌘⏎"}
+          {busy
+            ? "Filing…"
+            : att.isUploading
+              ? "Uploading…"
+              : "File ⌘⏎"}
         </button>
       </div>
     </Modal>

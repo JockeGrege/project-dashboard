@@ -15,6 +15,7 @@ import {
   type Settings,
 } from "@/domain";
 import { sanitizeLinks } from "./project-links";
+import { sanitizeImageUrls } from "./attachments";
 
 /**
  * Firestore stores snake_case fields and `Timestamp` values (spec's data model).
@@ -67,6 +68,7 @@ export function toIssue(
     text: d.text,
     tag: d.tag ?? null,
     status: d.status,
+    attachments: sanitizeImageUrls(d.attachments),
     createdAt: msOr(d.created_at, now),
     updatedAt: msOr(d.updated_at, now),
     resolvedAt: ms(d.resolved_at),

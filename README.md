@@ -45,8 +45,23 @@ That runs against a **seeded in-memory store** — no Firebase, no accounts. Set
 | `npm run e2e` | Playwright smoke (capture path, ⌘K) |
 | `npm run test:emulator` | `FirestoreStore` + rules integration tests against the Emulator Suite |
 | `npm run gen:rules` | write `firestore.rules` from the template + `VITE_ALLOWED_UID` |
+| `./scripts/setup-image-upload.sh` | wizard: imgbb key + Cloudflare Worker for pasted images |
 | `npm run deploy:rules` | generate, then `firebase deploy --only firestore:rules` |
 | `npm run lint` / `typecheck` | ESLint / `tsc` |
+
+## Image attachments
+
+Paste a screenshot straight into either issue composer (Cmd/Ctrl+V) — it previews,
+uploads, and files with the issue as a thumbnail you can click to enlarge. Only
+the image URL is stored; the bytes go to imgbb via a Cloudflare Worker
+([`worker/`](worker/)) that keeps the imgbb API key server-side. Set it up once:
+
+```bash
+./scripts/setup-image-upload.sh
+```
+
+Without `VITE_IMAGE_UPLOAD_URL` set (the default), paste still previews locally but
+nothing is uploaded. **imgbb links are effectively public — don't paste secrets.**
 
 ## Going live
 

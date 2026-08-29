@@ -23,6 +23,7 @@ const issue = (id: string, projectId: string, text: string, createdAt: number): 
   text,
   tag: null,
   status: "open",
+  attachments: [],
   createdAt,
   updatedAt: createdAt,
   resolvedAt: null,

@@ -17,6 +17,10 @@ interface IssueRowProps {
   to?: string;
   /** Trailing controls (e.g. a row menu) on the project detail screen. */
   actions?: ReactNode;
+  /** Hosted image URLs filed with the issue. */
+  attachments?: readonly string[];
+  /** Open the lightbox at this index. Only wired on non-link rows (project detail). */
+  onOpenImage?: (index: number) => void;
 }
 
 /**
@@ -31,7 +35,11 @@ export function IssueRow({
   projectName,
   to,
   actions,
+  attachments,
+  onOpenImage,
 }: IssueRowProps) {
+  const count = attachments?.length ?? 0;
+
   const body = (
     <>
       <StatusStamp status={status} />
@@ -48,6 +56,11 @@ export function IssueRow({
         {projectName ? (
           <span className={styles.project}>{projectName}</span>
         ) : null}
+        {to && count > 0 ? (
+          <span className={styles.attachMeta}>
+            {count} image{count === 1 ? "" : "s"}
+          </span>
+        ) : null}
         <span className={styles.time}>{timeLabel}</span>
       </span>
     </>
@@ -58,6 +71,35 @@ export function IssueRow({
       <Link to={to} className={styles.row} data-interactive>
         {body}
       </Link>
+    );
+  }
+
+  const thumbs =
+    count > 0 && attachments ? (
+      <div className={styles.thumbs}>
+        {attachments.map((url, i) => (
+          <button
+            key={`${url}-${i}`}
+            type="button"
+            className={styles.thumb}
+            aria-label={`View image ${i + 1} of ${count}`}
+            onClick={() => onOpenImage?.(i)}
+          >
+            <img src={url} alt="" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    ) : null;
+
+  if (thumbs) {
+    return (
+      <div className={styles.group}>
+        <div className={styles.row}>
+          {body}
+          {actions ? <span className={styles.actions}>{actions}</span> : null}
+        </div>
+        {thumbs}
+      </div>
     );
   }
 

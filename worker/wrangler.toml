@@ -1,0 +1,9 @@
+name = "hypomone-image-upload"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Browser origins allowed to call this Worker. The GitHub Pages site plus local
+# dev. Not a secret — edit freely. IMGBB_API_KEY is set separately with
+#   wrangler secret put IMGBB_API_KEY
+[vars]
+ALLOWED_ORIGIN = "https://jockegrege.github.io,http://localhost:4173,http://localhost:5173"

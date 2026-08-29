@@ -37,6 +37,7 @@ import {
   toSettings,
 } from "./firestore-mappers";
 import { normaliseText, sanitizeLinks } from "./project-links";
+import { sanitizeImageUrls } from "./attachments";
 
 const COL = {
   projects: "projects",
@@ -187,6 +188,7 @@ export class FirestoreStore implements Store {
       text: input.text.trim(),
       tag: input.tag,
       status: "open",
+      attachments: sanitizeImageUrls(input.attachments ?? []),
       created_at: nowTs,
       updated_at: nowTs,
       resolved_at: null,
@@ -274,6 +276,7 @@ export class FirestoreStore implements Store {
         text: input.firstIssue.text.trim(),
         tag: input.firstIssue.tag,
         status: "open",
+        attachments: [],
         created_at: nowTs,
         updated_at: nowTs,
         resolved_at: null,

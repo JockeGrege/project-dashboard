@@ -193,6 +193,35 @@ describe("InMemoryStore — projects", () => {
   });
 });
 
+describe("InMemoryStore — attachments", () => {
+  it("files an issue with a sanitised, capped attachment list", async () => {
+    const projectId = await seedProject();
+    const id = await store.createIssue({
+      projectId,
+      text: "screenshot attached",
+      tag: null,
+      attachments: [
+        "https://i.ibb.co/a.png",
+        "https://i.ibb.co/a.png", // duplicate — dropped
+        "not-a-url", // junk — dropped
+        "https://i.ibb.co/b.png",
+      ],
+    });
+    const issue = store.getSnapshot().issues.find((i) => i.id === id)!;
+    expect(issue.attachments).toEqual([
+      "https://i.ibb.co/a.png",
+      "https://i.ibb.co/b.png",
+    ]);
+  });
+
+  it("defaults to an empty attachment list", async () => {
+    const projectId = await seedProject();
+    const id = await store.createIssue({ projectId, text: "no images", tag: null });
+    const issue = store.getSnapshot().issues.find((i) => i.id === id)!;
+    expect(issue.attachments).toEqual([]);
+  });
+});
+
 describe("InMemoryStore — categories", () => {
   it("assigns an incrementing sortOrder", async () => {
     await store.createCategory({ name: "Work", colour: "#6fae82" });

@@ -64,6 +64,61 @@
   flex: none;
 }
 
+/* Wraps the row + its thumbnail strip into one column on the project screen. */
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: 2px 0 var(--sp-2);
+  padding-left: calc(var(--gutter-stamp) + var(--sp-3));
+}
+
+.thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--vault-700);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb:hover {
+  border-color: var(--ink-500);
+}
+
+.thumb:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 1px;
+}
+
+.attachMeta {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+}
+
+@media (max-width: 620px) {
+  .thumbs {
+    padding-left: var(--gutter-stamp);
+  }
+}
+
 .project {
   font-family: var(--font-mono);
   font-size: var(--text-mono-xs);

@@ -42,7 +42,12 @@ export default tseslint.config(
   // Firebase wiring. Firestore lives behind the Store; `src/app` is the
   // composition root and is allowed to pick and construct adapters.
   {
-    files: ["src/routes/**", "src/selectors/**", "src/ui/**"],
+    files: [
+      "src/routes/**",
+      "src/selectors/**",
+      "src/ui/**",
+      "src/uploads/**",
+    ],
     rules: {
       "no-restricted-imports": [
         "error",
