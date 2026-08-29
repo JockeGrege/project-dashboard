@@ -75,7 +75,9 @@
   flex-wrap: wrap;
   gap: var(--sp-2);
   margin: 2px 0 var(--sp-2);
-  padding-left: calc(var(--gutter-stamp) + var(--sp-3));
+  /* Line the strip up with the issue text column, not the stamp gutter:
+     row padding-left + stamp width + the row's flex gap. */
+  padding-left: calc(var(--sp-2) + var(--gutter-stamp) + var(--sp-3));
 }
 
 .thumb {
@@ -111,12 +113,6 @@
   font-size: var(--text-mono-xs);
   letter-spacing: var(--track-mono);
   color: var(--ink-500);
-}
-
-@media (max-width: 620px) {
-  .thumbs {
-    padding-left: var(--gutter-stamp);
-  }
 }
 
 .project {
