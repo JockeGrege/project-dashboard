@@ -14,6 +14,7 @@ const issue = (
   text: id,
   tag,
   status,
+  attachments: [],
   createdAt,
   updatedAt: createdAt,
   resolvedAt: status === "open" ? null : createdAt,

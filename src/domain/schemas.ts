@@ -64,12 +64,21 @@ export const projectSchema = z.object({
 });
 export type Project = z.infer<typeof projectSchema>;
 
+/** How many images one issue may carry. Keeps a runaway paste from ballooning a doc. */
+export const MAX_ATTACHMENTS = 8;
+
 export const issueSchema = z.object({
   id: nonEmpty,
   projectId: nonEmpty,
   text: nonEmpty,
   tag: tagSchema.nullable(),
   status: issueStatusSchema,
+  /**
+   * Hosted image URLs (imgbb), in paste order. The image bytes live off-Firebase;
+   * only the URL is stored. Absent on every issue filed before this shipped, hence
+   * the default.
+   */
+  attachments: z.array(z.string().trim().url()).max(MAX_ATTACHMENTS).default([]),
   createdAt: epochMillis,
   updatedAt: epochMillis,
   /** When the issue left `open`, whichever way it went. `status` says which. */

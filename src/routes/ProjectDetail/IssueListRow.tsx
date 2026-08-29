@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Issue } from "@/domain";
 import { useStoreApi } from "@/store";
 import { relativeTime } from "@/selectors";
-import { ConfirmDialog, IssueRow, IssueTextArea } from "@/ui";
+import { ConfirmDialog, IssueRow, IssueTextArea, Lightbox } from "@/ui";
 import { RowMenu } from "./RowMenu";
 import styles from "./IssueListRow.module.css";
 
@@ -21,6 +21,7 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
   const store = useStoreApi();
   const [editing, setEditing] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const [draft, setDraft] = useState(issue.text);
 
   useEffect(() => {
@@ -77,6 +78,8 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
         status={issue.status}
         tag={issue.tag}
         timeLabel={relativeTime(issue.createdAt, now)}
+        attachments={issue.attachments}
+        onOpenImage={setLightbox}
         actions={
           <RowMenu
             issue={issue}
@@ -85,6 +88,14 @@ export function IssueListRow({ issue, now }: IssueListRowProps) {
           />
         }
       />
+      {lightbox !== null ? (
+        <Lightbox
+          urls={issue.attachments}
+          index={lightbox}
+          onClose={() => setLightbox(null)}
+          onIndexChange={setLightbox}
+        />
+      ) : null}
       {confirmingDelete ? (
         <ConfirmDialog
           title="Delete this issue?"

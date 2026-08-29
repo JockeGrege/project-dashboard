@@ -1,18 +1,23 @@
 import { useMemo } from "react";
 import { RouterProvider } from "react-router-dom";
 import { StoreProvider, type Store } from "@/store";
+import { ImageUploaderProvider } from "@/uploads";
 import { readRuntimeEnv } from "@/firebase/env";
 import { createAppStore } from "./create-store";
+import { createAppUploader } from "./create-uploader";
 import { AuthGate } from "./AuthGate";
 import { ToastProvider } from "./toast";
 import { router } from "./router";
 
 function Shell({ store }: { store: Store }) {
+  const uploader = useMemo(() => createAppUploader(), []);
   return (
     <StoreProvider store={store}>
-      <ToastProvider>
-        <RouterProvider router={router} />
-      </ToastProvider>
+      <ImageUploaderProvider uploader={uploader}>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </ImageUploaderProvider>
     </StoreProvider>
   );
 }

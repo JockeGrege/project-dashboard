@@ -9,6 +9,11 @@ project-dashboard-handoff.md
 # dependencies
 node_modules/
 
+# cloudflare worker (worker/ has its own .gitignore too)
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
+
 # build output
 dist/
 dist-ssr/

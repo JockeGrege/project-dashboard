@@ -19,6 +19,8 @@ interface ImportMetaEnv {
   readonly VITE_FIREBASE_APP_ID: string;
   readonly VITE_ALLOWED_UID: string;
   readonly VITE_FIREBASE_TARGET: "emulator" | "live";
+  /** URL of the Cloudflare Worker that proxies image uploads to imgbb. Optional. */
+  readonly VITE_IMAGE_UPLOAD_URL?: string;
 }
 
 interface ImportMeta {

@@ -27,6 +27,8 @@ export default defineConfig({
     url: BASE,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    env: { VITE_FIREBASE_TARGET: "memory" },
+    // Force the offline adapters regardless of a developer's local .env:
+    // memory store, and the fake image uploader (empty upload URL).
+    env: { VITE_FIREBASE_TARGET: "memory", VITE_IMAGE_UPLOAD_URL: "" },
   },
 });

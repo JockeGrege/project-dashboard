@@ -1,0 +1,16 @@
+{
+  "name": "hypomone-image-upload-worker",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Cloudflare Worker that proxies pasted-image uploads to imgbb for Hypomone.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5",
+    "typescript": "^5.7.2",
+    "wrangler": "^4"
+  }
+}

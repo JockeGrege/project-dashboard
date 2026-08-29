@@ -195,6 +195,7 @@ export function Dashboard() {
                   timeLabel={relativeTime(issue.createdAt, now)}
                   projectName={project.name}
                   to={`/project/${project.id}`}
+                  attachments={issue.attachments}
                 />
               </li>
             ))}

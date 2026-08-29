@@ -16,6 +16,7 @@ import {
 } from "@/domain";
 import type { Store, StoreSnapshot } from "./store";
 import { normaliseText, sanitizeLinks } from "./project-links";
+import { sanitizeImageUrls } from "./attachments";
 
 export interface InMemorySeed {
   projects?: Project[];
@@ -165,6 +166,7 @@ export class InMemoryStore implements Store {
       text: trimmedOrThrow(input.text, "Issue text"),
       tag: input.tag,
       status: "open",
+      attachments: sanitizeImageUrls(input.attachments ?? []),
       createdAt: ts,
       updatedAt: ts,
       resolvedAt: null,
@@ -252,6 +254,7 @@ export class InMemoryStore implements Store {
         text: input.firstIssue.text.trim(),
         tag: input.firstIssue.tag,
         status: "open",
+        attachments: [],
         createdAt: ts,
         updatedAt: ts,
         resolvedAt: null,

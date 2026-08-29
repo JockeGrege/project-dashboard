@@ -1,0 +1,126 @@
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+.tile {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--vault-700);
+  border: 1px solid var(--rule);
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tile[data-status="uploading"] .thumb {
+  opacity: 0.4;
+}
+
+.tile[data-status="error"] {
+  border-color: var(--tag-bug-fg);
+}
+
+.tile[data-status="error"] .thumb {
+  opacity: 0.25;
+}
+
+/* ---- uploading ---- */
+.spinner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.spin {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--rule);
+  border-top-color: var(--brass);
+  animation: att-spin 0.7s linear infinite;
+}
+
+@keyframes att-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation-duration: 2s;
+  }
+}
+
+/* ---- remove (done / freshly added) ---- */
+.remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ink-100);
+  background: color-mix(in srgb, var(--vault-900) 78%, transparent);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.tile:hover .remove,
+.remove:focus-visible {
+  opacity: 1;
+}
+
+/* ---- error ---- */
+.err {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px;
+  text-align: center;
+}
+
+.errMsg {
+  font-size: 10px;
+  color: var(--tag-bug-fg);
+  line-height: 1.2;
+}
+
+.errActions {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.errBtn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  color: var(--ink-100);
+  background: var(--vault-600);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.errBtn:hover {
+  background: var(--vault-700);
+}

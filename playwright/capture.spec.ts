@@ -120,6 +120,53 @@ test("bulk-delete done issues and bulk-delete dismissed issues", async ({
   await expect(clearDismissed).toBeHidden();
 });
 
+test("paste a screenshot into the composer, file it, and open the lightbox", async ({
+  page,
+}) => {
+  await page.goto("/#/");
+  await page.locator("body").press("ControlOrMeta+k");
+  await page.getByPlaceholder("Search projects and issues…").fill("core");
+  await page.getByRole("button", { name: "CO core project" }).click();
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+
+  const composerText = page.getByLabel("New issue text");
+  await composerText.fill("layout breaks at this width");
+
+  // Simulate pasting an image: a 1×1 PNG dropped onto the textarea as a File.
+  await composerText.evaluate(async (el) => {
+    const b64 =
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+    const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    const file = new File([bytes], "screenshot.png", { type: "image/png" });
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    el.dispatchEvent(
+      new ClipboardEvent("paste", {
+        clipboardData: dt,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  });
+
+  // A preview shows immediately; Add is blocked until the upload settles.
+  await expect(page.getByRole("list", { name: "Pasted images" }).locator("img")).toBeVisible();
+  const addBtn = page.getByRole("button", { name: "Add", exact: true }).last();
+  await expect(addBtn).toBeDisabled();
+  await expect(addBtn).toBeEnabled();
+
+  await addBtn.click();
+
+  // The filed issue shows a thumbnail; clicking it opens the lightbox.
+  const thumb = page.getByRole("button", { name: /view image 1 of 1/i });
+  await expect(thumb).toBeVisible();
+  await thumb.click();
+  const dialog = page.getByRole("dialog", { name: /image 1 of 1/i });
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+});
+
 test("command search jumps to a project", async ({ page }) => {
   await page.goto("/#/");
   await page.locator("body").press("ControlOrMeta+k");

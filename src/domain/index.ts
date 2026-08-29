@@ -3,6 +3,7 @@ export {
   ISSUE_STATUSES,
   PROJECT_SORTS,
   VIEW_MODES,
+  MAX_ATTACHMENTS,
   DEFAULT_SETTINGS,
   tagSchema,
   issueStatusSchema,

@@ -18,6 +18,8 @@ export interface NewIssueInput {
   projectId: string;
   text: string;
   tag: Tag | null;
+  /** Hosted image URLs to file with the issue. Sanitised and capped by the Store. */
+  attachments?: string[];
 }
 
 export interface NewProjectInput {
