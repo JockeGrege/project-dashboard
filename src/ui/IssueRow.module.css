@@ -70,6 +70,17 @@
   flex-direction: column;
 }
 
+/* Stacked under the thumbnails: line the tag + time up with the text column. */
+.group > .trailing {
+  padding-left: calc(var(--sp-2) + var(--gutter-stamp) + var(--sp-3));
+  padding-bottom: var(--sp-3);
+}
+
+.group > .trailing .time {
+  min-width: 0;
+  text-align: left;
+}
+
 .thumbs {
   display: flex;
   flex-wrap: wrap;
@@ -151,7 +162,8 @@
 
   .trailing {
     width: 100%;
-    padding-left: var(--gutter-stamp);
+    /* same text-column indent as the thumbnail strip */
+    padding-left: calc(var(--sp-2) + var(--gutter-stamp) + var(--sp-3));
     gap: var(--sp-2);
     flex-wrap: wrap;
   }
