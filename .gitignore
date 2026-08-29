@@ -5,6 +5,7 @@
 # working docs (kept local)
 project-improvements-spec.md
 project-dashboard-handoff.md
+PROJECT_MAINTENANCE_GUIDE.md
 
 # dependencies
 node_modules/
