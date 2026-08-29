@@ -150,7 +150,7 @@ test("paste a screenshot into the composer, file it, and open the lightbox", asy
   });
 
   // A preview shows immediately; Add is blocked until the upload settles.
-  await expect(page.getByRole("list", { name: "Pasted images" }).locator("img")).toBeVisible();
+  await expect(page.getByRole("list", { name: "Attached images" }).locator("img")).toBeVisible();
   const addBtn = page.getByRole("button", { name: "Add", exact: true }).last();
   await expect(addBtn).toBeDisabled();
   await expect(addBtn).toBeEnabled();
@@ -165,6 +165,36 @@ test("paste a screenshot into the composer, file it, and open the lightbox", asy
   await expect(dialog).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
+});
+
+test("attach an image with the file picker", async ({ page }) => {
+  await page.goto("/#/");
+  await page.locator("body").press("ControlOrMeta+k");
+  await page.getByPlaceholder("Search projects and issues…").fill("core");
+  await page.getByRole("button", { name: "CO core project" }).click();
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+
+  await page.getByLabel("New issue text").fill("crash on the settings screen");
+
+  const png = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    "base64",
+  );
+  await page
+    .locator('input[type="file"]')
+    .setInputFiles({ name: "picked.png", mimeType: "image/png", buffer: png });
+
+  await expect(
+    page.getByRole("list", { name: "Attached images" }).locator("img"),
+  ).toBeVisible();
+
+  const addBtn = page.getByRole("button", { name: "Add", exact: true }).last();
+  await expect(addBtn).toBeEnabled();
+  await addBtn.click();
+
+  await expect(
+    page.getByRole("button", { name: /view image 1 of 1/i }),
+  ).toBeVisible();
 });
 
 test("command search jumps to a project", async ({ page }) => {

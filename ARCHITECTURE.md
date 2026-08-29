@@ -438,9 +438,11 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
   deleted on mobile.
 - **Mobile floating Add** — lifted ~40px into the thumb arc (`--sp-6 + 8px`),
   with `main` bottom padding raised to match so nothing hides behind it.
-- **Issue image attachments** — paste a screenshot into either composer
-  (`IssueComposer` or `QuickAdd`) and it uploads, previews, and files with the
-  issue. A second deep module, the **`ImageUploader`** seam (`src/uploads/`),
+- **Issue image attachments** — paste a screenshot, drop image files, or pick
+  them with the `＋` control in either composer (`IssueComposer` or `QuickAdd`)
+  and they upload, preview, and file with the issue (`IssueTextArea`'s
+  `onImageFiles` prop covers all three input paths).
+  A second deep module, the **`ImageUploader`** seam (`src/uploads/`),
   mirrors the Store: one `upload(blob) → url` method, two adapters —
   `WorkerImageUploader` (POSTs to the Cloudflare Worker in `worker/`, which holds
   the imgbb API key as a secret and returns only the URL) and
@@ -467,5 +469,5 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
   (e.g. Cloudflare R2).
 
 Covered by **138 unit tests** + **13 emulator tests** (10 `FirestoreStore` integration,
-3 rules) + **7 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+3 rules) + **8 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
 included), and `vite build` are clean.

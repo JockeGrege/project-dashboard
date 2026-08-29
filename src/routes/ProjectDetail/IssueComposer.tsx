@@ -41,7 +41,7 @@ export function IssueComposer({ projectId, onAdded }: IssueComposerProps) {
         value={text}
         onChange={setText}
         onSubmit={add}
-        onImagePaste={att.addFiles}
+        onImageFiles={att.addFiles}
         placeholder="Add an issue…"
         minRows={2}
         label="New issue text"

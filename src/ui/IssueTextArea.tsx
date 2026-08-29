@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
   type ClipboardEvent,
+  type DragEvent,
   type KeyboardEvent,
 } from "react";
 import styles from "./IssueTextArea.module.css";
@@ -25,11 +26,26 @@ interface IssueTextAreaProps {
   /** Show the expand-to-full-screen control. Default true. */
   expandable?: boolean;
   /**
-   * Called with any image files found on paste (a screenshot, a copied image).
-   * When it fires, the default paste is suppressed; plain-text paste is
-   * untouched. Not wired into the full-screen editor.
+   * Called with image files the user supplied by pasting a screenshot, dropping
+   * files onto the field, or picking them with the "＋" control. When it's
+   * provided the paste/drop of an image is intercepted (plain-text paste is
+   * untouched) and the picker button is shown. Not wired into the full-screen
+   * editor.
    */
-  onImagePaste?: (files: File[]) => void;
+  onImageFiles?: (files: File[]) => void;
+}
+
+const imageFilesOf = (list: FileList | null | undefined): File[] =>
+  list ? Array.from(list).filter((f) => f.type.startsWith("image/")) : [];
+
+/** Image files from a clipboard/drag payload, tolerating either shape. */
+function imageFilesFromTransfer(dt: DataTransfer): File[] {
+  const direct = imageFilesOf(dt.files);
+  if (direct.length > 0) return direct;
+  return Array.from(dt.items)
+    .filter((it) => it.kind === "file" && it.type.startsWith("image/"))
+    .map((it) => it.getAsFile())
+    .filter((f): f is File => f !== null);
 }
 
 /**
@@ -47,10 +63,12 @@ export function IssueTextArea({
   variant = "body",
   label,
   expandable = true,
-  onImagePaste,
+  onImageFiles,
 }: IssueTextAreaProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   const autosize = useCallback(() => {
     const el = ref.current;
@@ -77,18 +95,40 @@ export function IssueTextArea({
   };
 
   const onPaste = (e: ClipboardEvent<HTMLTextAreaElement>) => {
-    if (!onImagePaste) return;
-    const files = [...e.clipboardData.items]
-      .filter((it) => it.kind === "file" && it.type.startsWith("image/"))
-      .map((it) => it.getAsFile())
-      .filter((f): f is File => f !== null);
+    if (!onImageFiles) return;
+    const files = imageFilesFromTransfer(e.clipboardData);
     if (files.length === 0) return; // let plain-text paste through untouched
     e.preventDefault();
-    onImagePaste(files);
+    onImageFiles(files);
+  };
+
+  const onDragOver = (e: DragEvent<HTMLDivElement>) => {
+    if (!onImageFiles || !Array.from(e.dataTransfer.types).includes("Files")) return;
+    e.preventDefault();
+    setDragging(true);
+  };
+  const onDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+      setDragging(false);
+    }
+  };
+  const onDrop = (e: DragEvent<HTMLDivElement>) => {
+    setDragging(false);
+    if (!onImageFiles) return;
+    const files = imageFilesFromTransfer(e.dataTransfer);
+    if (files.length === 0) return; // a text/other drop keeps its native behaviour
+    e.preventDefault();
+    onImageFiles(files);
   };
 
   return (
-    <div className={styles.wrap}>
+    <div
+      className={styles.wrap}
+      data-dragging={onImageFiles ? dragging : undefined}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+    >
       <textarea
         ref={ref}
         className={styles.area}
@@ -102,6 +142,33 @@ export function IssueTextArea({
         onKeyDown={onKeyDown}
         onPaste={onPaste}
       />
+
+      {onImageFiles ? (
+        <>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className={styles.fileInput}
+            tabIndex={-1}
+            onChange={(e) => {
+              const files = imageFilesOf(e.target.files);
+              if (files.length > 0) onImageFiles(files);
+              e.target.value = "";
+            }}
+          />
+          <button
+            type="button"
+            className={styles.pick}
+            aria-label="Add image"
+            onClick={() => fileRef.current?.click()}
+          >
+            <span aria-hidden="true">＋</span>
+          </button>
+        </>
+      ) : null}
+
       {expandable ? (
         <button
           type="button"
@@ -111,6 +178,12 @@ export function IssueTextArea({
         >
           <span aria-hidden="true">⤢</span>
         </button>
+      ) : null}
+
+      {dragging ? (
+        <div className={styles.dropHint} aria-hidden="true">
+          Drop image to attach
+        </div>
       ) : null}
 
       {fullscreen ? (
