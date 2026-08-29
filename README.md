@@ -49,10 +49,21 @@ That runs against a **seeded in-memory store** — no Firebase, no accounts. Set
 | `npm run deploy:rules` | generate, then `firebase deploy --only firestore:rules` |
 | `npm run lint` / `typecheck` | ESLint / `tsc` |
 
+## Project details
+
+Each project expands to a **More details** panel: the full description, a
+free-form list of labelled links (Firebase console, deploy board, a runbook), and
+**maintenance notes** written in Markdown and rendered in place. The notes field
+takes up to 400,000 characters — enough for a full per-project runbook — and the
+inline editor shows a live character count that turns red and blocks Save if you
+go over. Edit all of it (name, category, repo / website URL, host machine, links,
+notes) from the meta editor on the project screen.
+
 ## Image attachments
 
-Paste a screenshot straight into either issue composer (Cmd/Ctrl+V) — it previews,
-uploads, and files with the issue as a thumbnail you can click to enlarge. Only
+Paste a screenshot straight into either issue composer (Cmd/Ctrl+V) — or drag an
+image onto the field, or pick one with the ＋ control. It previews, uploads, and
+files with the issue as a thumbnail you can click to enlarge. Only
 the image URL is stored; the bytes go to imgbb via a Cloudflare Worker
 ([`worker/`](worker/)) that keeps the imgbb API key server-side. Set it up once:
 
