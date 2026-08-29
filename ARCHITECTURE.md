@@ -460,6 +460,11 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
   `scripts/setup-image-upload.sh` is a 6-stage wizard for the one-time imgbb +
   Cloudflare setup. `VITE_IMAGE_UPLOAD_URL` (env / GitHub secret) selects the
   adapter; unset falls back to the fake. **imgbb links are effectively public.**
+  *Known limitation:* deleting or purging an issue removes it from Firestore only
+  — the imgbb image is left as an unlinked orphan. imgbb has no delete API (just
+  a human `delete_url`), and for a private single-user board the orphan costs
+  nothing; a real lifecycle would mean moving uploads to storage we control
+  (e.g. Cloudflare R2).
 
 Covered by **138 unit tests** + **13 emulator tests** (10 `FirestoreStore` integration,
 3 rules) + **7 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
