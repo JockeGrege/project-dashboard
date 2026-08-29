@@ -21,6 +21,15 @@ interface ModalProps {
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
+/** Is the event target somewhere the user is typing? Then Backspace edits text. */
+function isEditableTarget(el: EventTarget | null): boolean {
+  if (!(el instanceof HTMLElement)) return false;
+  const tag = el.tagName;
+  return (
+    tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable
+  );
+}
+
 /**
  * Shared overlay shell: a backdrop that closes on outside click or Escape, a
  * focus trap, focus returned to the trigger on close, and a body scroll lock.
@@ -56,6 +65,14 @@ export function Modal({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        e.stopPropagation();
+        onClose();
+        return;
+      }
+      // Touch devices have no Escape key: Backspace outside a text field backs
+      // out of the overlay (inside one it still deletes a character).
+      if (e.key === "Backspace" && !isEditableTarget(e.target)) {
+        e.preventDefault();
         e.stopPropagation();
         onClose();
       }

@@ -102,7 +102,7 @@ export function QuickAdd({ onClose, projectId, onFiled }: QuickAddProps) {
         value={text}
         onChange={setText}
         onSubmit={submit}
-        onImagePaste={att.addFiles}
+        onImageFiles={att.addFiles}
         placeholder="What's the improvement?"
         autoFocus
         variant="display"

@@ -3,6 +3,66 @@
   width: 100%;
 }
 
+.wrap[data-dragging="true"] {
+  outline: 2px dashed var(--brass);
+  outline-offset: 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* visually-hidden native file input; opened by the ＋ button */
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pick {
+  position: absolute;
+  right: 32px;
+  bottom: 8px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink-500);
+  background: var(--vault-800);
+  border-radius: var(--radius-sm);
+  opacity: 0.7;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.pick:hover {
+  opacity: 1;
+  color: var(--ink-100);
+}
+
+.dropHint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  color: var(--brass);
+  background: color-mix(in srgb, var(--vault-900) 70%, transparent);
+  border-radius: var(--radius-sm);
+}
+
 .area {
   width: 100%;
   display: block;

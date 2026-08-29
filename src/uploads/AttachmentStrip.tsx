@@ -16,7 +16,7 @@ export function AttachmentStrip({ items, onRetry, onRemove }: AttachmentStripPro
   if (items.length === 0) return null;
 
   return (
-    <ul className={styles.strip} aria-label="Pasted images">
+    <ul className={styles.strip} aria-label="Attached images">
       {items.map((a) => (
         <li
           key={a.id}

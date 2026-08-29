@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { PROJECT_SORTS, VIEW_MODES, type ProjectSort, type ViewMode } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
@@ -28,22 +28,36 @@ export function Settings() {
 
   // Edited as free text so the field can be cleared to type a new value — a
   // fully controlled number input snaps back to the last valid number on every
-  // keystroke, which made a single digit impossible to delete on mobile.
+  // keystroke, which made a single digit impossible to delete on mobile. Each
+  // keystroke that lands on a valid value commits straight away (no Enter
+  // needed); the field is only reconciled from the store while it's not focused,
+  // so a background commit can't clobber a half-typed number.
   const [cppText, setCppText] = useState(String(settings.cardsPerPage));
+  const cppFocused = useRef(false);
+
   useEffect(() => {
-    setCppText(String(settings.cardsPerPage));
+    if (!cppFocused.current) setCppText(String(settings.cardsPerPage));
   }, [settings.cardsPerPage]);
 
-  const commitCardsPerPage = () => {
-    const n = Math.floor(Number(cppText));
-    if (Number.isFinite(n) && n >= 1 && n <= 64) {
-      if (n !== settings.cardsPerPage) {
-        void store.updateSettings({ cardsPerPage: n });
-      }
-      setCppText(String(n));
-    } else {
-      setCppText(String(settings.cardsPerPage));
+  const parseCpp = (raw: string): number | null => {
+    const n = Math.floor(Number(raw));
+    return raw.trim() !== "" && Number.isFinite(n) && n >= 1 && n <= 64
+      ? n
+      : null;
+  };
+
+  const onCppChange = (raw: string) => {
+    setCppText(raw);
+    const n = parseCpp(raw);
+    if (n !== null && n !== settings.cardsPerPage) {
+      void store.updateSettings({ cardsPerPage: n });
     }
+  };
+
+  const onCppBlur = () => {
+    cppFocused.current = false;
+    const n = parseCpp(cppText);
+    setCppText(String(n ?? settings.cardsPerPage));
   };
 
   return (
@@ -71,8 +85,11 @@ export function Settings() {
             max={64}
             className={styles.number}
             value={cppText}
-            onChange={(e) => setCppText(e.target.value)}
-            onBlur={commitCardsPerPage}
+            onFocus={() => {
+              cppFocused.current = true;
+            }}
+            onChange={(e) => onCppChange(e.target.value)}
+            onBlur={onCppBlur}
             onKeyDown={(e) => {
               if (e.key === "Enter") e.currentTarget.blur();
             }}
