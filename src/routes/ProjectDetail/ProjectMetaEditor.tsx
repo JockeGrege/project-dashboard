@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Project } from "@/domain";
+import { MAX_NOTES_LENGTH, type Project } from "@/domain";
 import { useStore, useStoreApi } from "@/store";
 import styles from "./ProjectMetaEditor.module.css";
 
@@ -31,6 +31,9 @@ export function ProjectMetaEditor({ project, onClose }: ProjectMetaEditorProps) 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const notesLength = notes.trim().length;
+  const notesOver = notesLength > MAX_NOTES_LENGTH;
+
   const setLink = (i: number, next: Partial<LinkRow>) =>
     setLinks((rows) => rows.map((r, j) => (j === i ? { ...r, ...next } : r)));
   const addLink = () => setLinks((rows) => [...rows, { label: "", url: "" }]);
@@ -38,7 +41,7 @@ export function ProjectMetaEditor({ project, onClose }: ProjectMetaEditorProps) 
     setLinks((rows) => rows.filter((_, j) => j !== i));
 
   async function save() {
-    if (!name.trim() || busy) return;
+    if (!name.trim() || busy || notesOver) return;
     setBusy(true);
     setError(null);
     try {
@@ -175,8 +178,19 @@ export function ProjectMetaEditor({ project, onClose }: ProjectMetaEditorProps) 
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={6}
+          aria-invalid={notesOver || undefined}
           placeholder={"## Deploy\n- run `npm run deploy`\n- console: https://…"}
         />
+        {notesLength > 0 ? (
+          <span
+            className={notesOver ? styles.counterOver : styles.counter}
+            aria-live="polite"
+          >
+            {notesLength.toLocaleString()} / {MAX_NOTES_LENGTH.toLocaleString()}{" "}
+            characters
+            {notesOver ? " — too long to save, trim the excess" : null}
+          </span>
+        ) : null}
       </label>
 
       {error ? <p className={styles.error}>{error}</p> : null}
@@ -189,7 +203,7 @@ export function ProjectMetaEditor({ project, onClose }: ProjectMetaEditorProps) 
           type="button"
           className={styles.save}
           onClick={save}
-          disabled={!name.trim() || busy}
+          disabled={!name.trim() || busy || notesOver}
         >
           {busy ? "Saving…" : "Save"}
         </button>

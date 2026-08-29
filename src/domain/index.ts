@@ -4,6 +4,7 @@ export {
   PROJECT_SORTS,
   VIEW_MODES,
   MAX_ATTACHMENTS,
+  MAX_NOTES_LENGTH,
   DEFAULT_SETTINGS,
   tagSchema,
   issueStatusSchema,

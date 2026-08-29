@@ -59,6 +59,23 @@
   color: var(--ink-500);
 }
 
+.counter {
+  align-self: flex-end;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  color: var(--ink-500);
+}
+
+.counterOver {
+  align-self: flex-end;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--track-mono);
+  font-weight: 600;
+  color: var(--tag-bug-fg);
+}
+
 .linkRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto;
