@@ -40,7 +40,7 @@ export function IssueRow({
 }: IssueRowProps) {
   const count = attachments?.length ?? 0;
 
-  const body = (
+  const main = (
     <>
       <StatusStamp status={status} />
       {/* keyed by status so the strike-through wipes in when an issue is completed */}
@@ -51,25 +51,29 @@ export function IssueRow({
       >
         {text}
       </span>
-      <span className={styles.trailing}>
-        <TagChip tag={tag} size="sm" />
-        {projectName ? (
-          <span className={styles.project}>{projectName}</span>
-        ) : null}
-        {to && count > 0 ? (
-          <span className={styles.attachMeta}>
-            {count} image{count === 1 ? "" : "s"}
-          </span>
-        ) : null}
-        <span className={styles.time}>{timeLabel}</span>
-      </span>
     </>
+  );
+
+  const trailing = (
+    <span className={styles.trailing}>
+      <TagChip tag={tag} size="sm" />
+      {projectName ? (
+        <span className={styles.project}>{projectName}</span>
+      ) : null}
+      {to && count > 0 ? (
+        <span className={styles.attachMeta}>
+          {count} image{count === 1 ? "" : "s"}
+        </span>
+      ) : null}
+      <span className={styles.time}>{timeLabel}</span>
+    </span>
   );
 
   if (to) {
     return (
       <Link to={to} className={styles.row} data-interactive>
-        {body}
+        {main}
+        {trailing}
       </Link>
     );
   }
@@ -92,20 +96,24 @@ export function IssueRow({
     ) : null;
 
   if (thumbs) {
+    // Project screen with attachments: text, then the thumbnail strip, then the
+    // tag + time — one left-aligned column under the text.
     return (
       <div className={styles.group}>
         <div className={styles.row}>
-          {body}
+          {main}
           {actions ? <span className={styles.actions}>{actions}</span> : null}
         </div>
         {thumbs}
+        {trailing}
       </div>
     );
   }
 
   return (
     <div className={styles.row}>
-      {body}
+      {main}
+      {trailing}
       {actions ? <span className={styles.actions}>{actions}</span> : null}
     </div>
   );

@@ -453,6 +453,12 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
 - **Mobile `Lightbox`** — the close and prev/next controls sat at negative
   offsets that fell off a phone screen; under `620px` they move inside the image
   bounds so an opened image can always be dismissed.
+- **`IssueRow` content column** — on the project screen a row now reads as one
+  left-aligned column under the text: text, then the thumbnail strip, then the
+  tag chip + time (`trailing` was pulled out of the flex `.row` into the
+  `.group` for the attachment case). Every part — thumbnails and the wrapped
+  `trailing` on mobile — lines up with the text column
+  (`row padding-left + stamp width + flex gap`) rather than the stamp gutter.
 - **Issue image attachments** — paste a screenshot, drop image files, or pick
   them with the `＋` control in either composer (`IssueComposer` or `QuickAdd`)
   and they upload, preview, and file with the issue (`IssueTextArea`'s
