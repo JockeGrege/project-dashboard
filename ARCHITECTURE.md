@@ -438,6 +438,21 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
   deleted on mobile.
 - **Mobile floating Add** — lifted ~40px into the thumb arc (`--sp-6 + 8px`),
   with `main` bottom padding raised to match so nothing hides behind it.
+- **Back button closes overlays** — on touch there is no Escape key, and the
+  device Back button used to navigate the route while leaving the overlay up.
+  `ui/back-close.ts`'s `useBackClose(onClose)` pushes a throwaway history entry
+  when an overlay opens and closes the topmost one on `popstate`; closing any
+  other way rewinds that entry. One shared listener + a stack handle nesting
+  (Back closes the full-screen editor before its parent `QuickAdd`); the
+  teardown rewind is deferred a tick so StrictMode's double-mount doesn't churn
+  `history`. Wired into `Modal` (so `QuickAdd`, `CommandSearch`, `ConfirmDialog`,
+  `Lightbox` all get it) and `IssueTextArea`'s full-screen editor.
+- **`IssueTextArea` corner controls** — the `＋` / `⤢` buttons float over the
+  field; the textarea now reserves right padding (`data-tools`) so a long line
+  wraps before it, instead of running invisibly behind a button.
+- **Mobile `Lightbox`** — the close and prev/next controls sat at negative
+  offsets that fell off a phone screen; under `620px` they move inside the image
+  bounds so an opened image can always be dismissed.
 - **Issue image attachments** — paste a screenshot, drop image files, or pick
   them with the `＋` control in either composer (`IssueComposer` or `QuickAdd`)
   and they upload, preview, and file with the issue (`IssueTextArea`'s
@@ -469,5 +484,5 @@ uses `FakeImageUploader` (local preview only, nothing uploaded), which is the
   (e.g. Cloudflare R2).
 
 Covered by **138 unit tests** + **13 emulator tests** (10 `FirestoreStore` integration,
-3 rules) + **8 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
+3 rules) + **10 Playwright smoke tests**. `tsc`, `eslint` (architectural fences
 included), and `vite build` are clean.

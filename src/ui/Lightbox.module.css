@@ -79,3 +79,34 @@
   outline: 2px solid var(--brass);
   outline-offset: 2px;
 }
+
+/* On a phone the negative offsets push the controls off-screen — an image you
+   can't close. Pull everything inside the image bounds. */
+@media (max-width: 620px) {
+  .panel,
+  .image {
+    max-width: 100%;
+    max-height: 84vh;
+  }
+
+  .close {
+    top: 8px;
+    right: 8px;
+    background: color-mix(in srgb, var(--vault-900) 78%, transparent);
+  }
+
+  .prev {
+    left: 6px;
+  }
+
+  .next {
+    right: 6px;
+  }
+
+  .counter {
+    bottom: 8px;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--vault-900) 78%, transparent);
+  }
+}

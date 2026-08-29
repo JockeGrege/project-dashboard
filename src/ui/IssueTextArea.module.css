@@ -94,6 +94,15 @@
   font-size: var(--text-body);
 }
 
+/* Keep the wrapped text clear of the floating corner controls. */
+.area[data-tools="1"] {
+  padding-right: 34px;
+}
+
+.area[data-tools="2"] {
+  padding-right: 66px;
+}
+
 .area::placeholder {
   color: var(--ink-500);
 }

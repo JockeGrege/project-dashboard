@@ -197,6 +197,55 @@ test("attach an image with the file picker", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("the Back button closes an overlay instead of navigating away", async ({
+  page,
+}) => {
+  await page.goto("/#/");
+  await expect(page.getByRole("link", { name: /hypomone/i })).toBeVisible();
+
+  await page.locator("body").press("a");
+  const panel = page.getByRole("dialog", { name: "File an idea" });
+  await expect(panel).toBeVisible();
+
+  // The device Back button / Android back gesture reaches the SPA as a popstate;
+  // `history.back()` is that, without page.goBack()'s reload-on-timeout fallback.
+  await page.evaluate(() => history.back());
+
+  // The overlay is gone but we're still on the dashboard, not the page before it.
+  await expect(panel).toBeHidden();
+  await expect(page.getByRole("link", { name: /hypomone/i })).toBeVisible();
+});
+
+test("the Back button leaves the full-screen editor like Done", async ({
+  page,
+}) => {
+  await page.goto("/#/");
+  await page.locator("body").press("ControlOrMeta+k");
+  await page.getByPlaceholder("Search projects and issues…").fill("core");
+  await page.getByRole("button", { name: "CO core project" }).click();
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+
+  const actions = page.getByRole("button", { name: "Issue actions" }).first();
+  await actions.click();
+  await page.getByRole("menuitem", { name: /edit text/i }).click();
+
+  const editor = page.getByLabel("Edit issue text");
+  await editor.fill("reworded while full-screen");
+  await editor
+    .locator("xpath=..")
+    .getByRole("button", { name: "Expand editor to full screen" })
+    .click();
+  const full = page.getByRole("dialog", { name: "Edit issue text" });
+  await expect(full).toBeVisible();
+
+  await page.evaluate(() => history.back());
+
+  // Editor closed, the edit is kept, and we never left the project screen.
+  await expect(full).toBeHidden();
+  await expect(editor).toHaveValue("reworded while full-screen");
+  await expect(page.getByRole("heading", { name: "core" })).toBeVisible();
+});
+
 test("command search jumps to a project", async ({ page }) => {
   await page.goto("/#/");
   await page.locator("body").press("ControlOrMeta+k");
