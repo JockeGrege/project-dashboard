@@ -8,6 +8,7 @@ import {
   type DragEvent,
   type KeyboardEvent,
 } from "react";
+import { useBackClose } from "./back-close";
 import styles from "./IssueTextArea.module.css";
 
 interface IssueTextAreaProps {
@@ -69,6 +70,10 @@ export function IssueTextArea({
   const fileRef = useRef<HTMLInputElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const [dragging, setDragging] = useState(false);
+
+  // Corner controls float over the field; reserve room so text wraps before it
+  // runs under them rather than disappearing behind a button.
+  const toolCount = (expandable ? 1 : 0) + (onImageFiles ? 1 : 0);
 
   const autosize = useCallback(() => {
     const el = ref.current;
@@ -133,6 +138,7 @@ export function IssueTextArea({
         ref={ref}
         className={styles.area}
         data-variant={variant}
+        data-tools={toolCount || undefined}
         style={{ minHeight: `${minRows * 1.5}em` }}
         rows={minRows}
         placeholder={placeholder}
@@ -213,6 +219,9 @@ function FullScreenEditor({
 }: FullScreenEditorProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
+
+  // On touch, Back should behave exactly like Done: leave the editor, keep text.
+  useBackClose(onClose);
 
   useEffect(() => {
     restoreRef.current = document.activeElement as HTMLElement | null;

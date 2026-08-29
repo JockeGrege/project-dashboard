@@ -5,6 +5,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
+import { useBackClose } from "./back-close";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -45,6 +46,10 @@ export function Modal({
 }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
+
+  // Touch devices lean on Back rather than Escape — make it close the overlay
+  // instead of navigating the page underneath.
+  useBackClose(onClose);
 
   useEffect(() => {
     restoreRef.current = document.activeElement as HTMLElement | null;
