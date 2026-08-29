@@ -42,6 +42,13 @@ export const projectLinkSchema = z.object({
 });
 export type ProjectLink = z.infer<typeof projectLinkSchema>;
 
+/**
+ * Cap on the maintenance-notes Markdown blob. `notes` is stored inline on the
+ * project document, so this keeps a single doc comfortably under Firestore's
+ * 1 MiB ceiling while still fitting a full runbook (~400 KB of text).
+ */
+export const MAX_NOTES_LENGTH = 400_000;
+
 export const projectSchema = z.object({
   id: nonEmpty,
   name: nonEmpty,
@@ -57,7 +64,7 @@ export const projectSchema = z.object({
   /** Arbitrary extra links — Firebase console, deploy board, runbooks. */
   links: z.array(projectLinkSchema).max(40),
   /** Long-form Markdown: a maintenance guide, setup notes, gotchas. */
-  notes: z.string().max(20_000).nullable(),
+  notes: z.string().max(MAX_NOTES_LENGTH).nullable(),
   createdAt: epochMillis,
   updatedAt: epochMillis,
   deletedAt: epochMillis.nullable(),

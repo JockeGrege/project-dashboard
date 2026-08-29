@@ -1,6 +1,7 @@
 import {
   DEFAULT_CATEGORY_COLOUR,
   DEFAULT_SETTINGS,
+  MAX_NOTES_LENGTH,
   isCategoryColour,
   type Category,
   type CategoryPatch,
@@ -296,7 +297,7 @@ export class InMemoryStore implements Store {
       project.links = sanitizeLinks(patch.links);
     }
     if (patch.notes !== undefined) {
-      project.notes = normaliseText(patch.notes, 20_000);
+      project.notes = normaliseText(patch.notes, MAX_NOTES_LENGTH);
     }
     project.updatedAt = this.clock();
     this.commit();

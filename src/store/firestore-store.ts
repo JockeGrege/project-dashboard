@@ -15,6 +15,7 @@ import {
 import {
   DEFAULT_CATEGORY_COLOUR,
   DEFAULT_SETTINGS,
+  MAX_NOTES_LENGTH,
   isCategoryColour,
   type Category,
   type CategoryPatch,
@@ -308,7 +309,7 @@ export class FirestoreStore implements Store {
       out.links = sanitizeLinks(patch.links);
     }
     if (patch.notes !== undefined) {
-      out.notes = normaliseText(patch.notes, 20_000);
+      out.notes = normaliseText(patch.notes, MAX_NOTES_LENGTH);
     }
     await updateDoc(doc(this.db, COL.projects, id), out);
   };
